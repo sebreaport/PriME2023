@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Investomania!</title>
+    <link rel="icon" href="./images/logo_round.png">
+
+    <script type="text/javascript">
+      const companyNames = ["Company1","Company2","Company3"];
+      const instructions = [
+        "First Round Instructions",
+        "Second Round Instructions",
+        "Third Round Instructions",
+        "Fourth Round Instructions",
+      ]
+      const businessDesc = [
+        round1 = [
+          "R1 Company 1 Description",
+          "R1 Company 2 Description",
+          "R1 Company 3 Description",
+        ],
+        round2 = [
+          "R2 Company 1 Description",
+          "R2 Company 2 Description",
+          "R2 Company 3 Description",
+        ],
+        round3 = [
+          "R3 Company 1 Description",
+          "R3 Company 2 Description",
+          "R3 Company 3 Description",
+        ],
+        round4 = [
+          "R4 Company 1 Description",
+          "R4 Company 2 Description",
+          "R4 Company 3 Description",
+        ]
+      ]
+
+      const percentChanges = [
+        round1 = [
+          company1 = [0.1,0.15],
+          company2 = [0.15,0.20],
+          company3 = [0.12,0.17]
+        ],
+        round2 = [
+          company1 = [0.10,0.15],
+          company2 = [0.15,0.20], //Gimmick
+          company3 = [0.15,0.20]
+        ],
+        round3 = [
+          company1 = [0.12,0.17],
+          company2 = [0.15,0.20],
+          company3 = [0.15,0.20] //Gimmick
+        ],
+        round4 = [
+          company1 = [0.10,0.15], //Gimmick
+          company2 = [0.10,0.15],
+          company3 = [0.15,0.20]
+        ]
+      ]
+
+      var username;
+      var round = 1;
+      var capital = 1000000;
+      invested = [0,0,0];
+      lastValue = [0,0,0];
+      profit = [0,0,0];
+
+      window.onload=function(){
+        if (localStorage.getItem("loggedin") == 0 || localStorage.getItem("loggedin") === null) {
+          window.location = "primelogin.html";
+        }else{
+          username = localStorage.getItem("username");
+        }
+        document.getElementById("game").style.display = "none";
+        document.getElementById("welcomeMessage").innerHTML = "Hi " + username + "! Welcome to Investomania!";
+      }
+
+      function start(){
+        document.getElementById("welcome").style.display = "none";
+        document.getElementById("game").style.display = "block";
+        for (var i = 0; i < companyNames.length; i++) {
+          document.getElementsByClassName("businessName")[i].innerHTML = companyNames[i];
+        }
+        updateFields(round-1);
+      }
+
+      function updateFields(currentRound){
+        document.getElementsByClassName("instructions")[0].innerHTML = instructions[currentRound];
+        document.getElementsByClassName("roundIndicator")[0].innerHTML = "ROUND " + (currentRound + 1);
+        document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
+
+        for (var i = 0; i < businessDesc[currentRound].length; i++) {
+          document.getElementsByClassName("businessDescription")[i].innerHTML = businessDesc[0][i];
+        }
+      }
+
+      function enteredAmmount(company,ammount){
+        ammount = parseInt(ammount);
+        if (isNaN(ammount) == true) {
+          ammount = 0;
+        }
+        //save last value
+        for (var i = 0; i < lastValue.length; i++) {
+          if (company == i) {
+            if (lastValue[i] == 0) {
+              lastValue[i] == ammount;
+            }
+          }
+        }
+        if (capital - ammount < 0) {
+          if (capital == 0) {
+            capital = capital + lastValue[company] - ammount;
+            invested[company] = ammount;
+            lastValue[company] = ammount;
+          }else{
+          resetCapital();
+          recalculateCapital();
+          document.getElementsByClassName("ammountInv")[company].value = lastValue[company];
+          alert("You're Out of Money!");
+          }
+        }else{
+          resetCapital();
+          invested[company] = ammount;
+          recalculateCapital();
+          lastValue[company] = ammount;
+        }
+        document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
+        console.log(invested);
+      }
+
+      function  resetCapital(){
+        for (var i = 0; i < invested.length; i++) {
+          capital += invested[i];
+        }
+      }
+
+      function recalculateCapital(){
+        for (var i = 0; i < invested.length; i++) {
+          capital -= invested[i];
+        }
+      }
+
+      function autofill(company){
+        resetCapital();
+        var moneyInvested = 0;
+        for (var i = 0; i < invested.length; i++) {
+          if (company != i) {
+            moneyInvested += invested[i];
+          }
+        }
+        var autoFilled = capital - moneyInvested;
+        invested[company] = autoFilled;
+        recalculateCapital();
+        lastValue[company] = autoFilled;
+        document.getElementsByClassName("ammountInv")[company].value = autoFilled;
+        document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
+        console.log(invested);
+      }
+
+      function nextRound(){
+        for (var i = 0; i < invested.length; i++) {
+          if (invested[i] < 100000) {
+            alert("Invest at least P100,000 on every company!")
+          }else{
+            for (var i = 0; i < invested.length; i++) {
+              var max = percentChanges[round - 1][i][1]*100;
+              var min = percentChanges[round - 1][i][0]*100;
+              profit[i] = invested[i] * (1 + (Math.floor(Math.random() * (max - min + 1) ) + min)/100);
+            }
+            console.log(invested);
+            console.log(profit);
+          }
+        }
+      }
+    </script>
+
+    <style>
+      *{
+        padding: 0px;
+        margin: 0px;
+      }
+
+      @font-face {
+        font-family: "CodeProBold";
+        src: url("./fonts/Code Pro Bold LC.otf");
+      }
+
+      @font-face {
+        font-family: "CodePro";
+        src: url("./fonts/Code Pro LC.otf");
+      }
+
+      @font-face {
+        font-family: "Hero";
+        src: url("./fonts/Hero.otf");
+      }
+
+      :root{
+        --red: #B8555A;
+        --orange: #FC9141;
+        --yellow: #E8C46E;
+        --blue: #5EAAAF;
+        --green: #839B7B;
+        --lightBrown: #94816D;
+        --brown: #57453B;
+        --darkBrown: #2E2E2B;
+        --beige: #D1B07A;
+      }
+
+      .logocontainer{
+        background-color: rgba(255,255,255,50%);
+        margin: 20px;
+        display: flex;
+        width: auto;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      .logo{
+        height: 100px;
+        opacity: 100%;
+      }
+
+      .welcome{
+        background-color: rgba(255,255,255,50%);
+        text-align: center;
+        border-radius: 10px;
+        width: 50%;
+        margin: 50px auto;
+        padding: 20px;
+      }
+
+      .game{
+        background-color: rgba(255,255,255,50%);
+        width: 95%;
+        margin: 50px auto;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .gameHeader{
+        display: flex;
+        grid-gap: 20px;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(155,255,255,50%);
+        height: 150px;
+        padding: 10px;
+      }
+
+      .roundIndicator{
+        background-color: var(--blue);
+        font-family: "CodeProBold";
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+        text-align: center;
+        line-height: 150px;
+      }
+
+      .instructions{
+        flex-grow: 1;
+        background-color: var(--orange);
+        font-family: "Hero";
+        height: 135px;
+        border-radius: 10px;
+        padding: 10px;
+      }
+      .cash{
+        background-color: var(--blue);
+        font-family: "CodeProBold";
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+        text-align: center;
+        line-height: 150px;
+      }
+
+      .choiceContainer{
+        background-color: var(--green);
+        display: flex;
+        grid-gap: 20px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .businesses{
+        flex-grow: 1;
+        background-color: var(--beige);
+        margin: 20px;
+        border-radius: 10px;
+        height: 400px;
+        text-align: center;
+      }
+
+      .businessName{
+        font-family: "CodeProBold";
+        color: var(--darkBrown);
+        font-size: 32px;
+        margin: 10px;
+        text-align: center;
+      }
+
+      .businessDescription{
+        font-family: "hero";
+        color: var(--darkBrown);
+        font-size: 24px;
+        margin: 10px;
+        text-align: center;
+      }
+
+      .currentAmount{
+        font-family: "CodePro";
+        color: var(--red);
+        text-align: center;
+        margin: 10px;
+      }
+
+      body{
+        background: url("./images/dashboard_bg.png");
+        background-size: cover;
+      }
+
+      h1{
+        margin: 20px;
+        font-family: "CodeProBold";
+        color: var(--darkBrown);
+      }
+
+      p{
+        margin: 20px;
+        font-family: "Hero";
+      }
+
+      button{
+        font-family: "CodeProBold";
+        color: white;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        border-color: var(--red);
+        background-color: var(--red);
+      }
+
+      input{
+        margin: 10px;
+      }
+
+    </style>
+
+  </head>
+  <body>
+    <div class="logocontainer"><img class="logo "src="./images/logo.png"></div>
+    <div class="welcome" id="welcome">
+      <h1 id="welcomeMessage">Welcome to Investomania!</h1>
+      <p>This game is all about investing!</p>
+      <button type="button" name="button" onclick="start()"> Begin! </button>
+    </div>
+    <div class="game" id="game">
+      <div class="gameHeader">
+        <div class="roundIndicator">ROUND 1</div>
+        <div class="instructions" id="instructions">Here are the Instructions</div>
+        <div class="cash">P1,000,000</div>
+      </div>
+      <div class="choiceContainer">
+        <div class="businesses">
+          <p class="businessName">Business<h1>
+          <p class="businessDescription">Insert Description Here </p>
+          <input type="number" class="ammountInv" oninput="enteredAmmount(0,this.value)">
+          <button type="button" class="autofill" onclick="autofill(0)"></button>
+        </div>
+        <div class="businesses">
+          <p class="businessName">Business<h1>
+          <p class="businessDescription">Insert Description Here </p>
+          <input type="number" class="ammountInv" oninput="enteredAmmount(1,this.value)">
+          <button type="button" class="autofill" onclick="autofill(1)"></button>
+        </div>
+        <div class="businesses">
+          <p class="businessName">Business<h1>
+          <p class="businessDescription">Insert Description Here </p>
+          <input type="number" class="ammountInv" oninput="enteredAmmount(2,this.value)">
+          <button type="button" class="autofill" onclick="autofill(2)"></button>
+        </div>
+      </div>
+      <button type="button" name="button" onclick="nextRound()"> Submit! </button>
+    </div>
+  </body>
+</html>

@@ -41,11 +41,12 @@
             checker = 1; //Confirms username and password
             localStorage.setItem("loggedin",1);
             if (username == "stationManager") {
-              //window.location = "boothdashboard.html";
+              window.location = "boothdashboard.html";
             }else {
               localStorage.setItem("username", username);
+              localStorage.setItem("open", yourData[0]["Open"]);
               localStorage.setItem("yourData", JSON.stringify(yourData));
-              alert("Success! Welcome " + username +"!");
+              alert("Login Successful! Welcome " + username +"!");
               window.location = "facidashboard.html";
             }
           }

@@ -6,8 +6,56 @@
 
     <script type="text/javascript">
       window.onload = function onLoad(){
+        var username;
+        var score1;
+        var score2;
+        var score3;
+        var score4;
+
+        if (localStorage.getItem("loggedin") == 0 || localStorage.getItem("loggedin") === null) {
+          window.location = "primelogin.html";
+        }
+        else{
+          username = localStorage.getItem("username");
+          importinput();
+          yourData2 = JSON.parse(localStorage.getItem("yourData"));
+        }
+
         username = localStorage.getItem("username");
-        document.getElementById("header").innerHTML = "Welcome " + username;
+        document.getElementById("header").innerHTML = "Welcome, " + username +"!";
+      }
+
+      function importinput (){
+        // const fetch = require('isomorphic-fetch');
+        fetch("https://api.sheetson.com/v2/sheets/TeamScores", {
+          headers: {
+            "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+            "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+          }
+        }).then(r => r.json())
+        .then(result => {
+          yourData = result["results"];
+          if (yourData===undefined) {
+            yourData = yourData2;
+          }
+          if (yourData===undefined) {
+            alert("Error, kindly refresh the page")
+          }
+          for(let i = 0; i < yourData.length; i++){
+            let rowInfo = yourData[i]
+            if (username == rowInfo["User"]) {
+              score1 = rowInfo["Score 1"];
+              score2 = rowInfo["Score 2"];
+              score3 = rowInfo["Score 3"];
+              score4 = rowInfo["Score 4"];
+              localStorage.setItem("Score 1", score1);
+              localStorage.setItem("Score 2", score2);
+              localStorage.setItem("Score 3", score3);
+              localStorage.setItem("Score 4", score4);
+              localStorage.setItem("yourData", JSON.stringify(yourData));
+            }
+          }
+        })
       }
     </script>
 
@@ -17,43 +65,163 @@
         margin: 0px;
       }
 
+      @font-face {
+        font-family: "CodeProBold";
+        src: url("./fonts/Code Pro Bold LC.otf");
+      }
+
+      @font-face {
+        font-family: "CodePro";
+        src: url("./fonts/Code Pro LC.otf");
+      }
+
+      @font-face {
+        font-family: "Hero";
+        src: url("./fonts/Hero.otf");
+      }
+
+      :root{
+        --red: #B8555A;
+        --orange: #FC9141;
+        --yellow: #E8C46E;
+        --blue: #5EAAAF;
+        --green: #839B7B;
+        --lightBrown: #94816D;
+        --brown: #57453B;
+        --darkBrown: #2E2E2B;
+        --beige: #D1B07A;
+      }
+
+      .logocontainer{
+        background-color: rgba(255,255,255,50%);
+        margin: 20px;
+        display: flex;
+        width: auto;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      .logo{
+        height: 200px;
+        opacity: 100%;
+      }
+
       .header{
-        background-color: #5EAAAF;
-        height: 100px;
+        font-family: "CodeProBold";
+        color: var(--red);
+        font-size: 32px;
         text-align: center;
       }
 
       .menu{
+        background-color: rgba(255,255,255,0.5);
+        margin: 20px;
         display: flex;
-        width: 100%;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
       }
 
       .holder{
-        width: 250px;
-        margin: 5px;
-        background-color: #839b7b;
+        flex-grow: 1;
+        margin: 10px;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: rgba(131, 155, 123, 0.50);
+        text-align: center;
       }
+
+      .icon{
+        width: 200px;
+        height: 200px;
+        margin-top: 20px;
+      }
+
+      .logout{
+        margin: 20px 48% 20px 48%;
+      }
+
+      body{
+        background: url("./images/dashboard_bg.png");
+        background-size: cover;
+      }
+
+      h1{
+        margin-top: 10px;
+        font-family: "CodeProBold";
+        color: var(--darkBrown);
+      }
+
+      h2{
+        margin-top: 10px;
+        font-family: "CodePro";
+        color: var(--brown);
+      }
+
+      p{
+        margin-top: 20px;
+        font-family: "Hero";
+      }
+
+      button{
+        font-family: "CodeProBold";
+        color: white;
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 10px;
+        border-color: var(--red);
+        background-color: var(--red);
+      }
+
+      button:hover{
+        color: var(--darkBrown);
+      }
+
     </style>
   </head>
 
   <body>
-    <div class="header" id="header">HEADER</div>
+    <div class="logocontainer"><img class="logo "src="./images/logo.png"></div>
+    <div class="header" id="header"> Welcome! </div>
     <div class="menu">
       <div class="holder">
-        Game 1
+        <h1>Game Title</h1>
+        <h2 id="score1">Your Score: 0</h2>
+        <img class="icon" alt="icon" src="./images/logo_round.png">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <button type="button" id="game1" name="enterGame">Enter Game</button>
       </div>
       <div class="holder">
-        Game 2
+        <h1>Game Title</h1>
+        <h2 id="score2">Your Score: 0</h2>
+        <img class="icon" alt="icon" src="./images/logo_round.png">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <button type="button" id="game2" name="enterGame">Enter Game</button>
       </div>
       <div class="holder">
-        Game 3
+        <h1>Game Title</h1>
+        <h2 id="score3">Your Score: 0</h2>
+        <img class="icon" alt="icon" src="./images/logo_round.png">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <button type="button" id="game3" name="enterGame">Enter Game</button>
       </div>
       <div class="holder">
-        Game 4
+        <h1>Game Title</h1>
+        <h2 id="score4">Your Score: 0</h2>
+        <img class="icon" alt="icon" src="./images/logo_round.png">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <button type="button" id="game4" name="enterGame">Enter Game</button>
       </div>
       <div class="holder">
-        Game 5
+        <h1>Game Title</h1>
+        <h2 id="score5">Your Score: 0</h2>
+        <img class="icon" alt="icon" src="./images/logo_round.png">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <button type="button" id="game5" name="enterGame">Enter Game</button>
       </div>
     </div>
+    <button type="button" id="logout" name="button" class="logout">Log Out</button>
   </body>
 </html>

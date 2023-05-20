@@ -2,64 +2,113 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Faci Login</title>
+    <title>PriME Login</title>
     <script
-    src="https://code.jquery.com/jquery-3.4.1.js"
-    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-    crossorigin="anonymous"></script>
-    <script type="text/javascript">
-    window.onload=function(){
-      document.getElementById("Subbutton").addEventListener("click", submit, false);
-      importinput();
-    }
-    var yourData = [];
-    function importinput (){
-      // const fetch = require('isomorphic-fetch');
-      fetch("https://api.sheetson.com/v2/sheets/results", {
-        headers: {
-          "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
-          "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
-        }
-      }).then(r => r.json())
-      .then(result => {
-        yourData = result["results"];
-        document.getElementById("Subbutton").innerHTML = "Log in";
-        document.getElementById("Subbutton").disabled = false;
-      })
-    }
-
-    function submit (){
-      var username = document.getElementById("username").value;
-      var password = document.getElementById("password").value;
-      let checker = 0;
-      for(let i = 0; i < yourData.length; i++){
-        let rowInfo = yourData[i]
-        if (username == rowInfo["User"] && password == rowInfo["Password"]) {
-          //localStorage.setItem("userwhole", username);
-          //localStorage.setItem("open", yourData[0]["Open"]);
-          //localStorage.setItem("yourData", JSON.stringify(yourData));
-          checker = 1;
-          //localStorage.setItem("loggedin", 1);
-          alert("Success! Welcome " + username);
-          //window.location = "primegames.html";
-        }
-      }
-      if (checker == 0) {
-        alert("Invalid Username / Password")
-      }
-    }
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous">
     </script>
+    <script type="text/javascript">
+
+      window.onload=function(){
+        document.getElementById("Subbutton").addEventListener("click", submit, false);
+        importinput();
+      }
+
+      var yourData = [];
+      function importinput (){
+        // const fetch = require('isomorphic-fetch');
+        fetch("https://api.sheetson.com/v2/sheets/results", {
+          headers: {
+            "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+            "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+          }
+        }).then(r => r.json())
+        .then(result => {
+          yourData = result["results"];
+          document.getElementById("Subbutton").innerHTML = "Log in";
+          document.getElementById("Subbutton").disabled = false;
+        })
+      }
+
+      function submit (){
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        let checker = 0;
+        for(let i = 0; i < yourData.length; i++){
+          let rowInfo = yourData[i]
+          if (username == rowInfo["User"] && password == rowInfo["Password"]) {
+            checker = 1; //Confirms username and password
+            localStorage.setItem("loggedin",1);
+            if (username == "stationManager") {
+              //window.location = "boothdashboard.html";
+            }else {
+              localStorage.setItem("username", username);
+              alert("Success! Welcome " + username);
+              window.location = "facidashboard.html";
+            }
+          }
+        }
+        if (checker == 0) {
+          alert("Invalid Username / Password")
+        }
+      }
+    </script>
+    <style>
+      *{
+        padding: 0px;
+        margin: 0px;
+      }
+
+      .header{
+        background-color: #5EAAAF;
+        height: 100px;
+        text-align: center;
+      }
+
+      .formcontainer{
+        background-color: white;
+        width: 40%;
+        margin: 200px auto 200px;
+        padding: 20px;
+        border-radius: 10px;
+        border: 5px solid black;
+        text-align: center;
+      }
+
+      input{
+        font-size: 20px;
+        padding: 5px;
+        text-align: center;
+        border: 1px solid gray;
+        margin: 2px;
+      }
+
+      h1{
+        margin: 10px;
+      }
+
+      p {
+        margin: 10px;
+      }
+
+      button{
+        margin: 10px auto;
+        padding: 5px;
+      }
+    </style>
   </head>
+
   <body>
+    <div class="header">HEADER</div>
     <div class="formcontainer">
-      <h1>FACILITATOR LOGIN</h1>
+      <h1>PriME LOGIN</h1>
       <p>Welcome, Facis! Please log in to proceed.</p>
       <form class="Login">
         <input type="text" name="name" id="username" value="" placeholder="Username"/><br>
         <input type="password" name="password" id="password" value="" placeholder="Password"/>
       </form>
       <button id="Subbutton" disabled="true" type="submit" name="button">Loading...</button>
-
     </div>
   </body>
 </html>

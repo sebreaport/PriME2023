@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Facilitator Dashboard</title>
+
+    <script type="text/javascript">
+      window.onload = function onLoad(){
+        username = localStorage.getItem("username");
+        document.getElementById("header").innerHTML = "Welcome " + username;
+      }
+    </script>
+
+    <style>
+      *{
+        padding: 0px;
+        margin: 0px;
+      }
+
+      .header{
+        background-color: #5EAAAF;
+        height: 100px;
+        text-align: center;
+      }
+
+      .menu{
+        display: flex;
+        width: 100%;
+      }
+
+      .holder{
+        width: 250px;
+        margin: 5px;
+        background-color: #839b7b;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header" id="header">HEADER</div>
+    <div class="menu">
+      <div class="holder">
+        Game 1
+      </div>
+      <div class="holder">
+        Game 2
+      </div>
+      <div class="holder">
+        Game 3
+      </div>
+      <div class="holder">
+        Game 4
+      </div>
+      <div class="holder">
+        Game 5
+      </div>
+    </div>
+  </body>
+</html>

@@ -108,28 +108,31 @@
             }
           }
         }
-        if (capital - ammount < 0) {
-          if (capital == 0) {
-            capital = capital + lastValue[company] - ammount;
-            invested[company] = ammount;
-            lastValue[company] = ammount;
+
+        resetCapital();
+        var moneyInvested = 0;
+        for (var i = 0; i < invested.length; i++) {
+          if(company == i){
+            moneyInvested += ammount;
           }else{
-          resetCapital();
+            moneyInvested += invested[i];
+          }
+        }
+        if (moneyInvested > capital) {
           recalculateCapital();
           document.getElementsByClassName("ammountInv")[company].value = lastValue[company];
           alert("You're Out of Money!");
-          }
         }else{
-          resetCapital();
           invested[company] = ammount;
           recalculateCapital();
           lastValue[company] = ammount;
         }
         document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
+        checkzero();
         console.log(invested);
       }
 
-      function  resetCapital(){
+      function resetCapital(){
         for (var i = 0; i < invested.length; i++) {
           capital += invested[i];
         }
@@ -138,6 +141,20 @@
       function recalculateCapital(){
         for (var i = 0; i < invested.length; i++) {
           capital -= invested[i];
+        }
+      }
+
+      function checkzero(){
+        if (capital == 0) {
+          for (var i = 0; i < invested.length; i++) {
+            if(invested[i] == 0){
+              document.getElementsByClassName("ammountInv")[i].disabled = true;
+            }
+          }
+        }else{
+          for (var i = 0; i < invested.length; i++) {
+              document.getElementsByClassName("ammountInv")[i].disabled = false;
+          }
         }
       }
 
@@ -155,25 +172,30 @@
         lastValue[company] = autoFilled;
         document.getElementsByClassName("ammountInv")[company].value = autoFilled;
         document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
+        checkzero();
         console.log(invested);
       }
 
       function nextRound(){
         for (var i = 0; i < invested.length; i++) {
           if (invested[i] < 100000) {
-            alert("Invest at least P100,000 on every company!")
-          }else{
-            for (var i = 0; i < invested.length; i++) {
-              var max = percentChanges[round - 1][i][1]*100;
-              var min = percentChanges[round - 1][i][0]*100;
-              profit[i] = invested[i] * (1 + (Math.floor(Math.random() * (max - min + 1) ) + min)/100);
-            }
-            console.log(invested);
-            console.log(profit);
+            alert("Invest at least P100,000 on every company!");
+            return;
           }
         }
+
+        percentChanged = [0,0,0];
+        for (var i = 0; i < invested.length; i++) {
+          var max = percentChanges[round - 1][i][1]*100;
+          var min = percentChanges[round - 1][i][0]*100;
+          var change = (Math.floor(Math.random() * (max - min + 1) ) + min);
+          profit[i] = invested[i] * (1 + change/100);
+          percentChanged[i] = change;
+        }
+        console.log(profit);
+        console.log(percentChanged);
       }
-    </script>
+      </script>
 
     <style>
       *{

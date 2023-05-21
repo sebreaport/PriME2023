@@ -40,6 +40,7 @@
           yourData = result["results"];
           if (yourData===undefined) {
             yourData = yourData2;
+            console.log("yourData undefined!");
           }
           if (yourData===undefined) {
             alert("Error, kindly refresh the page")
@@ -58,42 +59,56 @@
               localStorage.setItem("yourData", JSON.stringify(yourData));
               localStorage.setItem("open", yourData[0]["Open"]);
               showprogress();
+              }
             }
+          })
+        }
+
+        function showprogress(){
+          if (open >= 1) {
+            document.getElementsByClassName("enterGame")[0].disabled=false;
+            document.getElementsByClassName("enterGame")[0].innerHTML="Enter Game!";
           }
-        })
-      }
+          if (open >= 2) {
+            document.getElementsByClassName("enterGame")[1].disabled=false;
+            document.getElementsByClassName("enterGame")[1].innerHTML="Enter Game!";
+          }
+          if (open >= 3) {
+            document.getElementsByClassName("enterGame")[2].disabled=false;
+            document.getElementsByClassName("enterGame")[2].innerHTML="Enter Game!";
+          }
+          if (open >= 4) {
+            document.getElementsByClassName("enterGame")[3].disabled=false;
+            document.getElementsByClassName("enterGame")[3].innerHTML="Enter Game!";
+          }
 
-      function showprogress(){
-        if (open >= 1) {
-          document.getElementsByClassName("enterGame")[0].disabled=false;
-          document.getElementsByClassName("enterGame")[0].innerHTML="Enter Game!";
-        }
-        if (open >= 2) {
-          document.getElementsByClassName("enterGame")[1].disabled=false;
-          document.getElementsByClassName("enterGame")[1].innerHTML="Enter Game!";
-        }
-        if (open >= 3) {
-          document.getElementsByClassName("enterGame")[2].disabled=false;
-          document.getElementsByClassName("enterGame")[2].innerHTML="Enter Game!";
-        }
-        if (open >= 4) {
-          document.getElementsByClassName("enterGame")[3].disabled=false;
-          document.getElementsByClassName("enterGame")[3].innerHTML="Enter Game!";
+          if (score1 != "") {
+            document.getElementsByClassName("score")[0].innerHTML = "Score: " + score1;
+            document.getElementsByClassName("enterGame")[0].disabled=true;
+            document.getElementsByClassName("enterGame")[0].innerHTML="Already Played!";
+          }
+          if (score2 != "") {
+            document.getElementsByClassName("score")[1].innerHTML = "Score: " + score2;
+            document.getElementsByClassName("enterGame")[1].disabled=true;
+            document.getElementsByClassName("enterGame")[1].innerHTML="Already Played!";
+          }
+          if (score3 != "") {
+            document.getElementsByClassName("score")[2].innerHTML = "Score: " + score3;
+            document.getElementsByClassName("enterGame")[2].disabled=true;
+            document.getElementsByClassName("enterGame")[2].innerHTML="Already Played!";
+          }
+          if (score4 != "") {
+            document.getElementsByClassName("score")[3].innerHTML = "Score: " + score4;
+            document.getElementsByClassName("enterGame")[3].disabled=true;
+            document.getElementsByClassName("enterGame")[3].innerHTML="Already Played!";
+          }
         }
 
-        if (score1 != "") {
-          document.getElementsByClassName("score")[0].innerHTML = "Score: " + score1;
+        function logout(){
+          localStorage.clear();
+          window.location = "login.html";
         }
-        if (score2 != "") {
-          document.getElementsByClassName("score")[1].innerHTML = "Score: " + score2;
-        }
-        if (score3 != "") {
-          document.getElementsByClassName("score")[2].innerHTML = "Score: " + score3;
-        }
-        if (score4 != "") {
-          document.getElementsByClassName("score")[3].innerHTML = "Score: " + score4;
-        }
-      }
+
     </script>
 
     <style>
@@ -224,38 +239,38 @@
     <div class="header" id="header"> Welcome!</div>
     <div class="menu">
       <div class="holder">
-        <h1>Game Title</h1>
+        <h1>Game 1 Title</h1>
         <h2 class="score">Not Yet Attempted!</h2>
         <img class="icon" alt="icon" src="./images/logo_round.png">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         <button type="button" class="enterGame" name="enterGame" disabled="true">Not Yet Open!</button>
       </div>
       <div class="holder">
-        <h1>Game Title</h1>
+        <h1>Game 2 Title</h1>
         <h2 class="score">Not Yet Attempted!</h2>
         <img class="icon" alt="icon" src="./images/logo_round.png">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         <button type="button" class="enterGame" name="enterGame" disabled="true">Not Yet Open!</button>
       </div><div class="holder">
-        <h1>Game Title</h1>
+        <h1>Game 3 Title</h1>
         <h2 class="score">Not Yet Attempted!</h2>
         <img class="icon" alt="icon" src="./images/logo_round.png">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         <button type="button" class="enterGame" name="enterGame" disabled="true">Not Yet Open!</button>
       </div><div class="holder">
-        <h1>Game Title</h1>
+        <h1>Game 4 Title</h1>
         <h2 class="score">Not Yet Attempted!</h2>
         <img class="icon" alt="icon" src="./images/logo_round.png">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         <button type="button" class="enterGame" name="enterGame" disabled="true">Not Yet Open!</button>
       </div><div class="holder">
-        <h1>Game Title</h1>
+        <h1>Game 5 Title</h1>
         <h2 class="score">Not Yet Attempted!</h2>
         <img class="icon" alt="icon" src="./images/logo_round.png">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         <button type="button" class="enterGame" name="enterGame" disabled="true">Not Yet Open!</button>
       </div>
     </div>
-    <button type="button" id="logout" name="button" class="logout" onclick="window.location.href = 'login.html';">Log Out</button>
+    <button type="button" id="logout" name="button" class="logout" onclick="logout()">Log Out</button>
   </body>
 </html>

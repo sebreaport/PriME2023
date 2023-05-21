@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Investomania!</title>
     <link rel="icon" href="./images/logo_round.png">
+    <link rel="stylesheet" href="globalStyles.css">
 
     <script type="text/javascript">
       const companyNames = ["Company1","Company2","Company3"];
@@ -352,7 +353,7 @@
         document.getElementById("game").style.display = "none";
 
         gain = capital - 1000000;
-        postsheets(gain);
+        postsheets();
 
         document.getElementById("welcomeMessage").innerHTML = "Congratulations, " + username + ", you inreased your capital from P1000000 to P" + capital + "!";
         document.getElementById("welcomeSubMessage").innerHTML = "That is a gain of P" + gain + "!";
@@ -361,82 +362,6 @@
       </script>
 
     <style>
-      *{
-        padding: 0px;
-        margin: 0px;
-      }
-
-      @font-face {
-        font-family: "CodeProBold";
-        src: url("./fonts/Code Pro Bold LC.otf");
-      }
-
-      @font-face {
-        font-family: "CodePro";
-        src: url("./fonts/Code Pro LC.otf");
-      }
-
-      @font-face {
-        font-family: "Hero";
-        src: url("./fonts/Hero.otf");
-      }
-
-      :root{
-        --red: #B8555A;
-        --orange: #FC9141;
-        --yellow: #E8C46E;
-        --blue: #5EAAAF;
-        --green: #839B7B;
-        --lightBrown: #94816D;
-        --brown: #57453B;
-        --darkBrown: #2E2E2B;
-        --beige: #D1B07A;
-      }
-
-      .logocontainer{
-        background-color: rgba(255,255,255,50%);
-        margin: 20px;
-        display: flex;
-        width: auto;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        border-radius: 20px;
-      }
-
-      .logo{
-        height: 100px;
-        opacity: 100%;
-      }
-
-      .welcome{
-        background-color: rgba(255,255,255,50%);
-        text-align: center;
-        border-radius: 10px;
-        width: 50%;
-        margin: 50px auto;
-        padding: 20px;
-      }
-
-      .game{
-        background-color: rgba(255,255,255,50%);
-        width: 95%;
-        margin: 50px auto;
-        border-radius: 10px;
-        padding: 10px;
-        text-align: center;
-      }
-
-      .gameHeader{
-        display: flex;
-        grid-gap: 20px;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(155,255,255,50%);
-        height: 150px;
-        padding: 10px;
-      }
-
       .roundIndicator{
         background-color: var(--blue);
         font-family: "CodeProBold";
@@ -506,32 +431,6 @@
         text-align: center;
       }
 
-      body{
-        background: url("./images/dashboard_bg.png");
-        background-size: cover;
-      }
-
-      h1{
-        margin: 20px;
-        font-family: "CodeProBold";
-        color: var(--darkBrown);
-      }
-
-      p{
-        margin: 20px;
-        font-family: "Hero";
-      }
-
-      button{
-        font-family: "CodeProBold";
-        color: white;
-        margin: 10px;
-        padding: 10px;
-        border-radius: 10px;
-        border-color: var(--red);
-        background-color: var(--red);
-      }
-
       input{
         margin: 10px;
       }
@@ -542,8 +441,8 @@
   <body>
     <div class="logocontainer"><img class="logo "src="./images/logo.png"></div>
     <div class="welcome" id="welcome">
-      <h1 id="welcomeMessage">Welcome to Investomania!</h1>
-      <p id="welcomeSubMessage">This game is all about investing!</p>
+      <h1 class="welcomeMessage" id="welcomeMessage">Welcome to Investomania!</h1>
+      <p class="welcomeSubMessage" id="welcomeSubMessage">This game is all about investing!</p>
       <button type="button" name="button" onclick="startEnd()" id="startEndButton"> Begin! </button>
     </div>
     <div class="game" id="game">

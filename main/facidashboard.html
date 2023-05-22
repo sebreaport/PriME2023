@@ -105,7 +105,13 @@
         }
 
         function logout(){
-          localStorage.clear();
+          localStorage.removeItem("username");
+          localStorage.removeItem("yourData");
+          localStorage.setItem("loggedin",0);
+          localStorage.removeItem("Score 1");
+          localStorage.removeItem("Score 2");
+          localStorage.removeItem("Score 3");
+          localStorage.removeItem("Score 4");
           window.location = "login.html";
         }
 

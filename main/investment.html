@@ -303,48 +303,53 @@
 
         if (round == 5) {
           endGame();
-        }else{
-          console.log("Old Capital: " + roundCapital);
-          console.log(invested);
-          capital = 0;
-          changeInformation = "";
-          for (var i = 0; i < invested.length; i++) {
-            var max = percentChanges[round - 1][i][1];
-            var min = percentChanges[round - 1][i][0];
-            var change = (Math.floor(Math.random() * (max - min + 1) ) + min);
+          return;
+        }
 
-            profit[i] = Math.floor(invested[i] * (1 + change/100));
-            capital += profit[i];
-            changeInformation += "Investment to " + companyNames[i] + ": P" + invested[i] + " --> P" + profit[i] + " (" + change +"%) </br>";
+        if (confirm("Confirm Investment?") == true) {
+            console.log("Old Capital: " + roundCapital);
+            console.log(invested);
+            capital = 0;
+            changeInformation = "";
+            for (var i = 0; i < invested.length; i++) {
+              var max = percentChanges[round - 1][i][1];
+              var min = percentChanges[round - 1][i][0];
+              var change = (Math.floor(Math.random() * (max - min + 1) ) + min);
 
-            invested[i] = 0;
-            lastValue[i] = 0;
-            document.getElementsByClassName("ammountInv")[i].value = "";
-            actualPercentChanges[round-1][i] = change;
-          }
+              profit[i] = Math.floor(invested[i] * (1 + change/100));
+              capital += profit[i];
+              changeInformation += "Investment to " + companyNames[i] + ": P" + invested[i] + " --> P" + profit[i] + " (" + change +"%) </br>";
 
-          document.getElementsByClassName("resultsFromPrev")[0].innerHTML = changeInformation;
-          document.getElementsByClassName('resultsFromPrev')[0].style.display = "block";
-          roundCapital = capital;
-          console.log(actualPercentChanges[round-1]);
-          console.log(profit);
-          console.log("New capital: " + capital);
+              invested[i] = 0;
+              lastValue[i] = 0;
+              document.getElementsByClassName("ammountInv")[i].value = "";
+              actualPercentChanges[round-1][i] = change;
+            }
 
-          if (round == 4) {
-            document.getElementsByClassName('choiceContainer')[0].style.display = "none";
-            document.getElementsByClassName("mainInstruction")[0].innerHTML = "End Game Message!";
-            document.getElementsByClassName("subInstruction")[0].innerHTML = "End Game Message!";
-            document.getElementsByClassName("roundIndicator")[0].innerHTML = "GAME END!";
-            document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
-
-            changeInformation += "New Capital: " + "P " + capital;
             document.getElementsByClassName("resultsFromPrev")[0].innerHTML = changeInformation;
-            document.getElementById("nextRound").innerHTML = "End Game";
-            round+=1;
-          }else{
-            round+=1;
-            updateFields(round-1);
-          }
+            document.getElementsByClassName('resultsFromPrev')[0].style.display = "block";
+            roundCapital = capital;
+            console.log(actualPercentChanges[round-1]);
+            console.log(profit);
+            console.log("New capital: " + capital);
+
+            if (round == 4) {
+              document.getElementsByClassName('choiceContainer')[0].style.display = "none";
+              document.getElementsByClassName("mainInstruction")[0].innerHTML = "End Game Message!";
+              document.getElementsByClassName("subInstruction")[0].innerHTML = "End Game Message!";
+              document.getElementsByClassName("roundIndicator")[0].innerHTML = "GAME END!";
+              document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
+
+              changeInformation += "New Capital: " + "P " + capital;
+              document.getElementsByClassName("resultsFromPrev")[0].innerHTML = changeInformation;
+              document.getElementById("nextRound").innerHTML = "End Game";
+              round+=1;
+            }else{
+              round+=1;
+              updateFields(round-1);
+            }
+        }else{
+          return;
         }
       }
 

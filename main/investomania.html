@@ -7,39 +7,40 @@
     <link rel="stylesheet" href="globalStyles.css">
 
     <script type="text/javascript">
-      const companyNames = ["Company1","Company2","Company3"];
+      const companyNames = ["Jollidonald's","Gloverge","Mercurika"];
       const mainInstructions = [
-        "First Round Main Instructions",
-        "Second Round Main Instructions",
-        "Third Round Main Instructions",
-        "Fourth Round Main Instructions",
+        "INVESTOMANIA </br>",
+        "INVESTOMANIA </br>",
+        "INVESTOMANIA </br>",
+        "INVESTOMANIA </br>"
       ]
       const subInstructions = [
-        "First Round Instructions",
-        "Second Round Instructions",
-        "Third Round Instructions",
-        "Fourth Round Instructions",
+        "You are introduced to three companies! Choose how you will invest your money!",
+        "The first round is done! Choose how you will invest your money next!",
+        "The new telcos suck! Increase in " + companyNames[1] + " investment is actually higher!",
+        "A New Virus strikes! Increase in " + companyNames[2] + " investment is actually higher!",
+        "Food Item Does Not Sell! Increase in " + companyNames[0] + " investment is actually lower!"
       ]
       const businessDesc = [
         round1 = [
-          "R1 Company 1 Description",
-          "R1 Company 2 Description",
-          "R1 Company 3 Description",
+          "A fast-food corporation who's happy to BEE a CLOWN!",
+          "A Telco that want's to reach CONVERGENCE around the GLOBE!",
+          "A Drug Store sourcing GENERIC medicine from MERCURY!",
         ],
         round2 = [
-          "R2 Company 1 Description",
-          "R2 Company 2 Description",
-          "R2 Company 3 Description",
+          "No New Changes, Expects regular increase",
+          "New Telco Entry, expects reduction in income",
+          "Start selling new drug, expects greater income",
         ],
         round3 = [
-          "R3 Company 1 Description",
-          "R3 Company 2 Description",
-          "R3 Company 3 Description",
+          "Opened new branches, expects more customer",
+          "Introduces 6G technology, increase income",
+          "No New Changes, Expects regular increase",
         ],
         round4 = [
-          "R4 Company 1 Description",
-          "R4 Company 2 Description",
-          "R4 Company 3 Description",
+          "Introducing new food item, increase income",
+          "No New Changes, Expects regular increase",
+          "People still recovering from the virus, expects greater income",
         ]
       ]
 
@@ -110,12 +111,24 @@
       window.onload=function(){
         importinput();
         if (localStorage.getItem("loggedin") == 0 || localStorage.getItem("loggedin") === null) {
-          window.location = "primelogin.html";
+          window.location = "login.html";
         }else{
           username = localStorage.getItem("username");
         }
         document.getElementById("game").style.display = "none";
+        document.getElementsByClassName("mainInstruction")[0].style.display = "none";
         document.getElementById("welcomeMessage").innerHTML = "Hi " + username + "! Welcome to Investomania!";
+
+        var welcomeSubMessage = [
+          "This game is all about investing! You have four rounds (four years) to maximize your initial capital of <b>P1,000,000</b>!</br>",
+          "Here are the instructions:",
+          "1. There are three companies to choose from, each with different backgrounds and decsriptions.",
+          "2. You are to invest <u>ALL</u> your money amongst the companies. You get to decide how to allocate your capital, but you must invest a minimum of <u>P100,000</u> into each company!</br></br",
+          "3. After each round, you will get back the money you invested into each company with the respective profits that they earned.",
+          "4. Your goal is to gain maximum profit!"
+        ];
+
+        document.getElementById("welcomeSubMessage").innerHTML = welcomeSubMessage.join("</br></br>");
       }
 
       //JARED CODE TO POST TO SHEETS START
@@ -335,8 +348,8 @@
 
             if (round == 4) {
               document.getElementsByClassName('choiceContainer')[0].style.display = "none";
-              document.getElementsByClassName("mainInstruction")[0].innerHTML = "End Game Message!";
-              document.getElementsByClassName("subInstruction")[0].innerHTML = "End Game Message!";
+              document.getElementsByClassName("mainInstruction")[0].innerHTML = subInstructions[4];
+              document.getElementsByClassName("subInstruction")[0].innerHTML = subInstructions[4];
               document.getElementsByClassName("roundIndicator")[0].innerHTML = "GAME END!";
               document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
 
@@ -360,7 +373,7 @@
         gain = capital - 1000000;
         postsheets();
 
-        document.getElementById("welcomeMessage").innerHTML = "Congratulations, " + username + ", you inreased your capital from P1000000 to P" + capital + "!";
+        document.getElementById("welcomeMessage").innerHTML = "Congratulations, " + username + ", you increased your capital from P1000000 to P" + capital + "!";
         document.getElementById("welcomeSubMessage").innerHTML = "That is a gain of P" + gain + "!";
         document.getElementById("startEndButton").innerHTML = "End Game";
       }
@@ -380,11 +393,28 @@
       .instructions{
         flex-grow: 1;
         background-color: var(--orange);
-        font-family: "Hero";
         height: 135px;
         border-radius: 10px;
         padding: 10px;
       }
+
+      .mainInstruction{
+        font-family: "CodeProBold";
+        font-size: 20px;
+      }
+
+      .subInstruction{
+        font-family: "CodeProBold";
+        font-size: 18px;
+        margin-top: 10px;
+      }
+
+      .resultsFromPrev{
+        margin-top: 10px;
+        font-family: "Hero";
+        font-size: 16px;
+      }
+
       .cash{
         background-color: var(--blue);
         font-family: "CodeProBold";

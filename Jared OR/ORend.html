@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Game End - OR</title>
+    <link rel="stylesheet" href="OR.css">
+    <script type="text/javascript">
+    var Score1;
+    var Score2;
+    var Score3;
+    window.onload= function(){
+      Score1 = localStorage.getItem("Score1")
+      Score2 = localStorage.getItem("Score2")
+      Score3 = localStorage.getItem("Score3")
+      document.getElementsByClassName('end_score')[0].innerHTML = "Game 1 score: " + Score1;
+      document.getElementsByClassName('end_score')[1].innerHTML = "Game 2 score: " + Score2;
+      document.getElementsByClassName('end_score')[2].innerHTML = "Game 3 score: " + Score3;
+    }
+
+    function home(){
+      window.location = "./OR1.html";
+    }
+
+    </script>
+  </head>
+  <body>
+    <div class="main">
+    </div>
+    <div class="helpboxcont">
+      <div class="helpbox">
+        <h1>Thanks for playing!</h1>
+        <h2 class="end_score">Game 1 score: </h2>
+        <h2 class="end_score">Game 2 score: </h2>
+        <h2 class="end_score">Game 3 score: </h2>
+        <h3>Game by Jared Matthew Ong</h3>
+        <div class="Submit" onclick="home()">
+          Back to Home
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

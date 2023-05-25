@@ -372,7 +372,12 @@
           if (built_array[brow][bcol] != null && !error_array[brow][bcol].includes('Connect to Airport') && !error_array[brow][bcol].includes('Connect to Seaport') && !error_array[brow][bcol].includes('Connect to Road') && !error_array[brow][bcol].includes('Connect to Power')) {
             try {people += building_values[built_array[brow][bcol]-1]["People"]} catch (e) {}
             try {planet += building_values[built_array[brow][bcol]-1]["Planet"]} catch (e) {}
-            try {profit += building_values[built_array[brow][bcol]-1]["Profit"]} catch (e) {}
+            if (map_array[brow][bcol] == "sandz_cell") {
+              try {profit += building_values[built_array[brow][bcol]-1]["Profit"] + 5} catch (e) {}
+            }
+            else {
+              try {profit += building_values[built_array[brow][bcol]-1]["Profit"]} catch (e) {}
+            }
           }
 
           //put error back in error Array

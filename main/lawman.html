@@ -5,7 +5,6 @@
     <title>Lawman!</title>
     <link rel="icon" href="./images/logo_round.png">
     <link rel="stylesheet" href="globalStyles.css">
-    <link rel="stylesheet" href="lawman.css">
 
   <script type="text/javascript">
     const answers = [
@@ -108,7 +107,7 @@
       roundInAddress = currentRound - 1;
       document.getElementsByClassName("roundIndicator")[0].innerHTML = "ROUND " + currentRound;
       document.getElementsByClassName("score")[0].innerHTML = "SCORE:</br>" + score;
-      document.getElementsByClassName("description")[0].innerHTML = descriptions[roundInAddress];
+      document.getElementsByClassName("bottomHeader")[0].innerHTML = descriptions[roundInAddress];
       document.getElementsByClassName("hangmanImg")[0].src = "./images/hangman/" + wrongGuesses + ".jpg";
       createBlanks();
     }
@@ -189,7 +188,7 @@
 
     function addGuesses(){
       guessText = lettersGuessed.toString();
-      document.getElementsByClassName("guesses")[0].innerHTML = guessText;
+      document.getElementsByClassName("guessedLetters")[0].innerHTML = guessText;
     }
 
     function roundEnd(result){
@@ -210,7 +209,7 @@
       } else if(result == "lost-maxGuess"){
         resultText = "You ran out of guesses! The word is " + currentWord + ".";
       }
-      document.getElementsByClassName("guesses")[0].innerHTML = resultText;
+      document.getElementsByClassName("guessedLetters")[0].innerHTML = resultText;
 
       currentRound += 1;
       lettersGuessed = [];
@@ -226,7 +225,7 @@
         document.getElementsByClassName("inputField")[0].style.display = "block";
         document.getElementsByClassName("subButton")[0].style.display = "block";
         document.getElementsByClassName("guessBlanks")[0].style.lineHeight = "200px";
-        document.getElementsByClassName("guesses")[0].innerHTML = "No Guesses";
+        document.getElementsByClassName("guessedLetters")[0].innerHTML = "No Guesses";
         updateFields();
       }
     }
@@ -245,12 +244,260 @@
   </script>
 
   <style>
-    /*Currently at lawman.css*/
+  *{
+    padding: 0px;
+    margin: 0px;
+  }
+
+  @font-face {
+    font-family: "CodeProBold";
+    src: url("./fonts/Code Pro Bold LC.otf");
+  }
+
+  @font-face {
+    font-family: "CodePro";
+    src: url("./fonts/Code Pro LC.otf");
+  }
+
+  @font-face {
+    font-family: "Hero";
+    src: url("./fonts/Hero.otf");
+  }
+
+  :root{
+    --red: #B8555A;
+    --orange: #FC9141;
+    --yellow: #E8C46E;
+    --blue: #5EAAAF;
+    --green: #839B7B;
+    --lightBrown: #94816D;
+    --brown: #57453B;
+    --darkBrown: #2E2E2B;
+    --beige: #D1B07A;
+  }
+
+  .logocontainer{
+    background-color: rgba(255,255,255,50%);
+    margin: 20px;
+    display: flex;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .logo{
+    height: 100px;
+    opacity: 100%;
+  }
+
+  .welcome{
+    background-color: rgba(255,255,255,50%);
+    text-align: center;
+    border-radius: 10px;
+    width: 60%;
+    margin: 50px auto;
+    padding: 20px;
+  }
+
+  .welcomeMessage{
+    margin: 20px;
+    font-family: "CodeProBold";
+    color: var(--darkBrown);
+  }
+
+  .welcomeSubMessage{
+    margin: 20px;
+    font-family: "Hero";
+  }
+
+  .game{
+    background-color: rgba(255,255,255,50%);
+    width: 95%;
+    margin: 20px auto;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .gameHeader{
+    display: flex;
+    grid-gap: 20px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(155,255,255,50%);
+    height: 150px;
+    padding: 10px;
+  }
+
+  body{
+    background: url("./images/dashboard_bg.png");
+    background-size: cover;
+  }
+
+  button{
+    font-family: "CodeProBold";
+    color: white;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border-color: var(--red);
+    background-color: var(--red);
+  }
+
+  .roundIndicator{
+    background-color: var(--blue);
+    font-family: "CodeProBold";
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 150px;
+  }
+
+  .mainHeader{
+    flex-grow: 1;
+    background-color: var(--green);
+    height: 150px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .topHeader{
+    font-family: "CodeProBold";
+    margin: 10px;
+    font-size: 30px;
+  }
+
+  .bottomHeader{
+    font-family: "Hero";
+    margin: 10px;
+    font-size: 24px;
+  }
+
+  .score{
+    background-color: var(--blue);
+    font-family: "CodeProBold";
+    display: flex;
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gameContainer{
+    background-color: var(--lightBrown);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hangmanContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 350px;
+    height: 500px;
+    background-color: var(--brown);
+    margin: 10px;
+    border-radius: 10px;
+  }
+
+  .hangmanImg{
+    height: 450px;
+    border-radius: 10px;
+  }
+
+  .guessContainer {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 500px;
+    background-color: var(--brown);
+    margin: 10px 20px 10px 10px;
+    height: 500px;
+    border-radius: 10px;
+  }
+
+  .guessBlanks{
+    font-family: "CodePro";
+    flex-grow: 1;
+    background-color: var(--beige);
+    width: 95%;
+    border-radius: 10px;
+    margin: 20px auto 10px auto;
+    padding: 10px;
+    text-align: center;
+    line-height: 200px;
+    font-size: 60px;
+  }
+
+  .guessedLetters{
+    font-family: "CodePro";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:50px;
+    margin: 10px;
+    padding: 10px;
+    background-color: var(--beige);
+    width: 95%;
+    border-radius: 5px;
+    font-size: 20px;
+  }
+
+  .inputField{
+    margin: 10px;
+    height: 50px;
+    width: 300px;
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .subButton{
+    margin: 10px;
+    width: 250px;
+  }
   </style>
 
   </head>
 
   <body>
+    <div class="logocontainer"><img class="logo "src="./images/logo.png"></div>
+    <div class="page">
+      <div class="welcome" id="welcome">
+        <h1 class="welcomeMessage">Welcome to Lawman!</h1>
+        <p class="welcomeSubMessage">This game is all about the Law!</p>
+        <button type="button" name="button" onclick="startEnd()" id="startEndButton"> Begin! </button>
+      </div>
+      <div class="game">
+        <div class="gameHeader">
+          <div class="roundIndicator">ROUND 1</div>
+          <div class="mainHeader">
+            <div class="topHeader">THE LAWMAN</div>
+            <div class="bottomHeader">Description of Tax Term</div>
+          </div>
+          <div class="score">0</div>
+        </div>
+        <div class="gameContainer">
+          <div class="hangmanContainer">
+            <img src="./images/hangman/1.jpg" alt="Hangman Image" class="hangmanImg">
+          </div>
+          <div class="guessContainer">
+            <div class="guessBlanks">Insert Blanks Here</div>
+            <div class="guessedLetters">No Guesses</div>
+            <input type="text" name="guess" class="inputField">
+            <button type="button" name="button" class="subButton" onclick="submitGuess()">Submit Guess</button>
+            <button type="button" name="button" class="nextRound" onclick="nextRound()">Next Round</button>
+          </div>
+        </div>
+    </div>
+  </body>
+
+  <!-- <body>
     <div class="logocontainer"><img class="logo "src="./images/logo.png"></div>
     <div class="welcome" id="welcome">
       <h1 class="welcomeMessage">Welcome to Lawman!</h1>
@@ -272,12 +519,12 @@
           </div>
           <div class="guessContainer">
             <div class="guessBlanks">Insert Blanks Here</div>
-            <div class="guesses">No Guesses</div>
+            <div class="guessedLetters">No Guesses</div>
             <input type="text" name="guess" class="inputField">
             <button type="button" name="button" class="subButton" onclick="submitGuess()">Submit Guess</button>
             <button type="button" name="button" class="nextRound" onclick="nextRound()">Next Round</button>
           </div>
         </div>
       </div>
-  </body>
+  </body> -->
 </html>

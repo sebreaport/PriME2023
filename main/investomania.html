@@ -117,7 +117,7 @@
           username = localStorage.getItem("username");
         }
         document.getElementById("game").style.display = "none";
-        document.getElementsByClassName("mainInstruction")[0].style.display = "none";
+        document.getElementsByClassName("topHeader")[0].style.display = "none";
         document.getElementById("welcomeMessage").innerHTML = "Hi " + username + "! Welcome to Investomania!";
 
         var welcomeSubMessage = [
@@ -204,8 +204,8 @@
       }
 
       function updateFields(currentRound){
-        document.getElementsByClassName("mainInstruction")[0].innerHTML = mainInstructions[currentRound];
-        document.getElementsByClassName("subInstruction")[0].innerHTML = subInstructions[currentRound];
+        document.getElementsByClassName("topHeader")[0].innerHTML = mainInstructions[currentRound];
+        document.getElementsByClassName("botHeader")[0].innerHTML = subInstructions[currentRound];
         document.getElementsByClassName("roundIndicator")[0].innerHTML = "ROUND " + (currentRound + 1);
         document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
 
@@ -349,8 +349,8 @@
 
             if (round == 4) {
               document.getElementsByClassName('choiceContainer')[0].style.display = "none";
-              document.getElementsByClassName("mainInstruction")[0].innerHTML = subInstructions[4];
-              document.getElementsByClassName("subInstruction")[0].innerHTML = subInstructions[4];
+              document.getElementsByClassName("topHeader")[0].innerHTML = subInstructions[4];
+              document.getElementsByClassName("botHeader")[0].innerHTML = subInstructions[4];
               document.getElementsByClassName("roundIndicator")[0].innerHTML = "GAME END!";
               document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
 
@@ -378,54 +378,244 @@
         document.getElementById("welcomeSubMessage").innerHTML = "That is a gain of P" + gain + "!";
         document.getElementById("startEndButton").innerHTML = "End Game";
       }
-      </script>
-
+    </script>
     <style>
-      /* Currently at investomania.css */
-    </style>
+    *{
+      padding: 0px;
+      margin: 0px;
+    }
+
+    @font-face {
+      font-family: "CodeProBold";
+      src: url("./fonts/Code Pro Bold LC.otf");
+    }
+
+    @font-face {
+      font-family: "CodePro";
+      src: url("./fonts/Code Pro LC.otf");
+    }
+
+    @font-face {
+      font-family: "Hero";
+      src: url("./fonts/Hero.otf");
+    }
+
+    :root{
+      --red: #B8555A;
+      --orange: #FC9141;
+      --yellow: #E8C46E;
+      --blue: #5EAAAF;
+      --green: #839B7B;
+      --lightBrown: #94816D;
+      --brown: #57453B;
+      --darkBrown: #2E2E2B;
+      --beige: #D1B07A;
+    }
+
+    .logocontainer{
+      background-color: rgba(255,255,255,50%);
+      margin: 20px;
+      display: flex;
+      width: auto;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border-radius: 20px;
+    }
+
+    .logo{
+      height: 100px;
+      opacity: 100%;
+    }
+
+    .welcome{
+      background-color: rgba(255,255,255,50%);
+      text-align: center;
+      border-radius: 10px;
+      width: 60%;
+      margin: 50px auto;
+      padding: 20px;
+    }
+
+    .welcomeMessage{
+      margin: 20px;
+      font-family: "CodeProBold";
+      color: var(--darkBrown);
+    }
+
+    .welcomeSubMessage{
+      margin: 20px;
+      font-family: "Hero";
+    }
+
+    .game{
+      background-color: rgba(255,255,255,50%);
+      width: 95%;
+      margin: 20px auto;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .gameHeader{
+      display: flex;
+      grid-gap: 20px;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(155,255,255,50%);
+      height: 150px;
+      padding: 10px;
+    }
+
+    body{
+      background: url("./images/dashboard_bg.png");
+      background-size: cover;
+    }
+
+    button{
+      font-family: "CodeProBold";
+      color: white;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      border-color: var(--red);
+      background-color: var(--red);
+    }
+    .roundIndicator{
+    background-color: var(--blue);
+    font-family: "CodeProBold";
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 150px;
+    }
+
+  .mainHeader{
+    flex-grow: 1;
+    background-color: var(--orange);
+    height: 135px;
+    border-radius: 10px;
+    padding: 10px;
+    }
+
+  .topHeader{
+    font-family: "CodeProBold";
+    font-size: 20px;
+    }
+
+  .botHeader{
+    font-family: "CodeProBold";
+    font-size: 18px;
+    margin-top: 10px;
+    }
+
+  .resultsFromPrev{
+    margin-top: 10px;
+    font-family: "Hero";
+    font-size: 16px;
+    }
+
+  .cash{
+    background-color: var(--blue);
+    font-family: "CodeProBold";
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 150px;
+    }
+
+  .choiceContainer{
+    background-color: var(--green);
+    display: flex;
+    grid-gap: 20px;
+    align-items: center;
+    justify-content: center;
+    }
+
+  .businesses{
+    flex-grow: 1;
+    background-color: var(--beige);
+    margin: 20px;
+    border-radius: 10px;
+    height: 400px;
+    text-align: center;
+    }
+
+  .businessName{
+    font-family: "CodeProBold";
+    color: var(--darkBrown);
+    font-size: 32px;
+    margin: 10px;
+    text-align: center;
+    }
+
+  .businessDescription{
+    font-family: "hero";
+    color: var(--darkBrown);
+    font-size: 24px;
+    margin: 10px;
+    text-align: center;
+    }
+
+  .expectedReturn{
+    font-family: "CodePro";
+    color: var(--red);
+    font-size: 15px;
+    margin: 20px;
+    text-align: center;
+    }
+
+  input{
+    margin: 10px;
+    }
+
+  </style>
 
   </head>
   <body>
     <div class="logocontainer"><img class="logo "src="./images/logo.png"></div>
-    <div class="welcome" id="welcome">
-      <h1 class="welcomeMessage" id="welcomeMessage">Welcome to Investomania!</h1>
-      <p class="welcomeSubMessage" id="welcomeSubMessage">This game is all about investing!</p>
-      <button type="button" name="button" onclick="startEnd()" id="startEndButton"> Begin! </button>
-    </div>
-    <div class="game" id="game">
-      <div class="gameHeader">
-        <div class="roundIndicator">ROUND 1</div>
-        <div class="instructions">
-          <div class="mainInstruction">Main Instruction or Result</div>
-          <div class="subInstruction">Sub Instruction</div>
-          <div class="resultsFromPrev">Results from Previous!</div>
-        </div>
-        <div class="cash">P1,000,000</div>
+    <div class="page">
+      <div class="welcome" id="welcome">
+        <h1 class="welcomeMessage" id="welcomeMessage">Welcome to Investomania!</h1>
+        <p class="welcomeSubMessage" id="welcomeSubMessage">This game is all about investing!</p>
+        <button type="button" name="button" onclick="startEnd()" id="startEndButton"> Begin! </button>
       </div>
-      <div class="choiceContainer">
-        <div class="businesses">
-          <p class="businessName">Business<h1>
-          <p class="businessDescription">Insert Description Here</p>
-          <p class="expectedReturn">Expected Return</p>
-          <input type="number" class="ammountInv" name="ammountInv" oninput="enteredAmmount(0,this.value)">
-          <button type="button" class="autofill" onclick="autofill(0)">Max Out</button>
+      <div class="game" id="game">
+        <div class="gameHeader">
+          <div class="roundIndicator">ROUND 1</div>
+          <div class="mainHeader">
+            <div class="topHeader">Main Instruction or Result</div>
+            <div class="botHeader">Sub Instruction</div>
+            <div class="resultsFromPrev">Results from Previous!</div>
+          </div>
+          <div class="cash">P1,000,000</div>
         </div>
-        <div class="businesses">
-          <p class="businessName">Business<h1>
-          <p class="businessDescription">Insert Description Here </p>
-          <p class="expectedReturn">Expected Return</p>
-          <input type="number" class="ammountInv" name="ammountInv" oninput="enteredAmmount(1,this.value)">
-          <button type="button" class="autofill" onclick="autofill(1)">Max Out</button>
+        <div class="choiceContainer">
+          <div class="businesses">
+            <p class="businessName">Business<h1>
+            <p class="businessDescription">Insert Description Here</p>
+            <p class="expectedReturn">Expected Return</p>
+            <input type="number" class="ammountInv" name="ammountInv" oninput="enteredAmmount(0,this.value)">
+            <button type="button" class="autofill" onclick="autofill(0)">Max Out</button>
+          </div>
+          <div class="businesses">
+            <p class="businessName">Business<h1>
+            <p class="businessDescription">Insert Description Here </p>
+            <p class="expectedReturn">Expected Return</p>
+            <input type="number" class="ammountInv" name="ammountInv" oninput="enteredAmmount(1,this.value)">
+            <button type="button" class="autofill" onclick="autofill(1)">Max Out</button>
+          </div>
+          <div class="businesses">
+            <p class="businessName">Business<h1>
+            <p class="businessDescription">Insert Description Here </p>
+            <p class="expectedReturn">Expected Return</p>
+            <input type="number" class="ammountInv" name="ammountInv" oninput="enteredAmmount(2,this.value)">
+            <button type="button" class="autofill" onclick="autofill(2)">Max Out</button>
+          </div>
         </div>
-        <div class="businesses">
-          <p class="businessName">Business<h1>
-          <p class="businessDescription">Insert Description Here </p>
-          <p class="expectedReturn">Expected Return</p>
-          <input type="number" class="ammountInv" name="ammountInv" oninput="enteredAmmount(2,this.value)">
-          <button type="button" class="autofill" onclick="autofill(2)">Max Out</button>
-        </div>
-      </div>
-      <button type="button" name="button" onclick="nextRound()" id="nextRound">Next Round!</button>
+        <button type="button" name="button" onclick="nextRound()" id="nextRound">Next Round!</button>
     </div>
   </body>
 </html>

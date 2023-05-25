@@ -410,10 +410,13 @@
         document.getElementsByClassName('submit_top')[0].innerHTML = "Confirm submission?"
         document.getElementsByClassName('yessubmit')[0].style.display = "block"
       }
-      else {
-        document.getElementsByClassName('submit_top')[0].innerHTML = "Please follow budget and provided conditions"
+      else if(budget >= 0) {
+        document.getElementsByClassName('submit_top')[0].innerHTML = "Please follow all provided conditions"
         document.getElementsByClassName('yessubmit')[0].style.display = "none"
-
+      }
+      else {
+        document.getElementsByClassName('submit_top')[0].innerHTML = "Please follow provided budget"
+        document.getElementsByClassName('yessubmit')[0].style.display = "none"
       }
     }
 
@@ -966,7 +969,7 @@
               <img class="condition_img" src="Images/bonus.png" alt="">
             </div>
             <div class="condition_item">
-              <p>Resorts have a +5 profit on beaches</p>
+              <p>Hotels have a +5 profit on beaches</p>
               <img class="condition_img" src="Images/bonus.png" alt="">
             </div>
           </div>

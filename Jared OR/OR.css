@@ -6,17 +6,17 @@
 
 @font-face {
   font-family: CodeProLCBlack;
-  src: url('Fonts/Code Pro Black LC.otf');
+  src: url('fonts/Code Pro Black LC.otf');
 }
 
 @font-face {
   font-family: CodeProLC;
-  src: url('Fonts/Code Pro LC.otf');
+  src: url('fonts/Code Pro LC.otf');
 }
 
 @font-face {
   font-family: CodeProLCBold;
-  src: url('Fonts/Code Pro Bold LC.otf');
+  src: url('fonts/Code Pro Bold LC.otf');
 }
 
 .main{

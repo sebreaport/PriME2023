@@ -608,91 +608,91 @@
       }
     </style>
     <script type="text/javascript">
-    var Score1;
-    var Score2;
-    var Score3;
-    var userList = [];
+      var Score1;
+      var Score2;
+      var Score3;
+      var userList = [];
 
-    window.onload= function(){
-      Score1 = localStorage.getItem("Score1");
-      Score2 = localStorage.getItem("Score2");
-      Score3 = localStorage.getItem("Score3");
-      totalScore = parseInt(Score1) + parseInt(Score2) + parseInt(Score3);
-      document.getElementsByClassName('end_score')[0].innerHTML = "Game 1 score: " + Score1;
-      document.getElementsByClassName('end_score')[1].innerHTML = "Game 2 score: " + Score2;
-      document.getElementsByClassName('end_score')[2].innerHTML = "Game 3 score: " + Score3;
-      document.getElementsByClassName('end_score')[3].innerHTML = "Total Score: " + totalScore;
-      postsheets();
-
-      //Start of Seb code
-      importinput();
-      if (localStorage.getItem("loggedin") == 0 || localStorage.getItem("loggedin") === null) {
-        window.location = "login.html";
-      }else{
-        username = localStorage.getItem("username");
-      }
-      //End of Seb Code
-
-      //JARED CODE TO POST TO SHEETS START
-      function internalHandler(e) {
-        if (closable == false) {
-          e.preventDefault(); // required in some browsers
-          e.returnValue = ""; // required in some browsers
-          return "Please wait for it to end loading"; // only works in old browsers
-        }
-      }
-
-      if (window.addEventListener) {
-          window.addEventListener('beforeunload', internalHandler, true);
-      } else if (window.attachEvent) {
-          window.attachEvent('onbeforeunload', internalHandler);
-      }
-
-      function importinput(){
-        fetch("https://api.sheetson.com/v2/sheets/results", {
-          headers: {
-            "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
-            "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
-          }
-        }).then(r => r.json())
-        .then(result => {
-          var playerData = result["results"];
-          for (var i = 0; i < playerData.length; i++) {
-            userList.push(playerData[i]["User"]);
-          }
-        })
-      }
-
-      function postsheets() {
+      window.onload= function(){
+        //Start of Seb code
         importinput();
-        var newAddress = ""
-        for (var i = 0; i < userList.length; i++) {
-          if (username == userList[i]) {
-            var index = i + 2;
-            newAddress = "https://api.sheetson.com/v2/sheets/results/" + index;
+        if (localStorage.getItem("loggedin") == 0 || localStorage.getItem("loggedin") === null) {
+          window.location = "login.html";
+        }else{
+          username = localStorage.getItem("username");
+        }
+
+        Score1 = localStorage.getItem("Score1");
+        Score2 = localStorage.getItem("Score2");
+        Score3 = localStorage.getItem("Score3");
+        totalScore = parseInt(Score1) + parseInt(Score2) + parseInt(Score3);
+        document.getElementsByClassName('end_score')[0].innerHTML = "Game 1 score: " + Score1;
+        document.getElementsByClassName('end_score')[1].innerHTML = "Game 2 score: " + Score2;
+        document.getElementsByClassName('end_score')[2].innerHTML = "Game 3 score: " + Score3;
+        document.getElementsByClassName('end_score')[3].innerHTML = "Total Score: " + totalScore;
+        postsheets();
+        //End of Seb Code
+       }
+        //JARED CODE TO POST TO SHEETS START
+        window.googleDocCallback = function () { return true; };
+
+        function internalHandler(e) {
+          if (closable == false) {
+            e.preventDefault(); // required in some browsers
+            e.returnValue = ""; // required in some browsers
+            return "Please wait for it to end loading"; // only works in old browsers
           }
         }
-        var d = new Date();
-        fetch(newAddress, {
-          method: "PUT",
-          headers: {
-            "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
-            "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({'Score 1': totalScore})
-        }).then(r => r.json())
-        .then(result => {
-          closable = true;
-        })
+
+        if (window.addEventListener) {
+            window.addEventListener('beforeunload', internalHandler, true);
+        } else if (window.attachEvent) {
+            window.attachEvent('onbeforeunload', internalHandler);
+        }
+
+        function importinput(){
+          fetch("https://api.sheetson.com/v2/sheets/results", {
+            headers: {
+              "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+              "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+            }
+          }).then(r => r.json())
+          .then(result => {
+            var playerData = result["results"];
+            for (var i = 0; i < playerData.length; i++) {
+              userList.push(playerData[i]["User"]);
+            }
+          })
+        }
+
+        function postsheets() {
+          importinput();
+          var newAddress = ""
+          for (var i = 0; i < userList.length; i++) {
+            if (username == userList[i]) {
+              var index = i + 2;
+              newAddress = "https://api.sheetson.com/v2/sheets/results/" + index;
+            }
+          }
+          var d = new Date();
+          fetch(newAddress, {
+            method: "PUT",
+            headers: {
+              "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+              "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({'Score 1': totalScore})
+          }).then(r => r.json())
+          .then(result => {
+            closable = true;
+          })
+        }
+        //JARED CODE TO POST TO SHEETS END
+
+      function home(){
+        window.location = "./facidashboard.html";
       }
-      //JARED CODE TO POST TO SHEETS END
-
-    }
-
-    function home(){
-      window.location = "./factidashboard.html";
-    }
 
     </script>
   </head>

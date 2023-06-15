@@ -15,11 +15,11 @@
         "INVESTOMANIA </br>"
       ]
       const subInstructions = [
-        "You are introduced to three companies! Choose how you will invest your money!",
-        "The first round is done! Choose how you will invest your money next!",
-        "The new telcos suck! Increase in " + companyNames[1] + " investment is actually higher!",
-        "A New Virus strikes! Increase in " + companyNames[2] + " investment is actually higher!",
-        "Food Item Does Not Sell! Increase in " + companyNames[0] + " investment is actually lower!"
+        "Here are the three companies! Choose how you will invest your money!",
+        "A year has passed and you now have your money back! Choose how you will invest your money next!",
+        "A year has passed! A technical glitch disrupted the new Telco's networks. Increase in " + companyNames[1] + " investment is actually lower!",
+        "A year has passed! A Virus strikes increasing the demand for medicine! Increase in " + companyNames[2] + " investment is actually higher!",
+        "A year has passed! The brand new food product does not sell! Increase in " + companyNames[0] + " investment is actually lower!"
       ]
       const businessDesc = [
         round1 = [
@@ -28,19 +28,19 @@
           "A Drug Store sourcing GENERIC medicine from MERCURY!",
         ],
         round2 = [
-          "No New Changes, Expects regular increase",
-          "New Telco Entry, expects reduction in income",
-          "Start selling new drug, expects greater income",
+          "The company expects a regular increase in income for the year",
+          "A new Telco is expected to enter the market which is expected to <b>decrease the company's income</b>!",
+          "The company will start to sell new drugs which is expected to <b>increase the company's income</b>!",
         ],
         round3 = [
-          "Opened new branches, expects more customer",
-          "Introduces 6G technology, increase income",
-          "No New Changes, Expects regular increase",
+          "The company shall be opening newer branches, increasing its customers, which is expected to <b>increase the company's income</b>!",
+          "The company will introduce 6G technology which is expectred to <b>increase the company's income</b>!",
+          "The company expects a regular increase in income for the year",
         ],
         round4 = [
-          "Introducing new food item, increase income",
-          "No New Changes, Expects regular increase",
-          "People still recovering from the virus, expects greater income",
+          "The company will be introducing new food itmes which is expected to <b>increase the company's income</b>!",
+          "The company expects a regular increase in income for the year",
+          "Since people are still recovering from the virus, a lot of drugs will still be needed which is expected to <b>increase the company's income</b>!",
         ]
       ]
 
@@ -331,7 +331,7 @@
 
               profit[i] = Math.floor(invested[i] * (1 + change/100));
               capital += profit[i];
-              changeInformation += "Investment to " + companyNames[i] + ": P" + invested[i] + " --> P" + profit[i] + " (" + change +"%) </br>";
+              changeInformation += "Investment to " + companyNames[i] + ": P" + invested[i] + " --> P" + profit[i] + " <b>(" + change +"%)</b> </br>";
 
               invested[i] = 0;
               lastValue[i] = 0;
@@ -443,6 +443,7 @@
     }
 
     .welcomeSubMessage{
+      font-size: 20px;
       margin: 20px;
       font-family: "Hero";
     }
@@ -473,6 +474,7 @@
 
     button{
       font-family: "CodeProBold";
+      font-size: 24px;
       color: white;
       margin: 10px;
       padding: 10px;
@@ -480,9 +482,11 @@
       border-color: var(--red);
       background-color: var(--red);
     }
+
     .roundIndicator{
     background-color: var(--blue);
     font-family: "CodeProBold";
+    font-size: 20px;
     width: 150px;
     height: 150px;
     border-radius: 10px;
@@ -490,7 +494,7 @@
     line-height: 150px;
     }
 
-  .mainHeader{
+    .mainHeader{
     flex-grow: 1;
     background-color: var(--orange);
     height: 135px;
@@ -498,26 +502,27 @@
     padding: 10px;
     }
 
-  .topHeader{
+    .topHeader{
     font-family: "CodeProBold";
     font-size: 20px;
     }
 
-  .botHeader{
+    .botHeader{
     font-family: "CodeProBold";
-    font-size: 18px;
+    font-size: 20px;
     margin-top: 10px;
     }
 
-  .resultsFromPrev{
+    .resultsFromPrev{
     margin-top: 10px;
     font-family: "Hero";
-    font-size: 16px;
+    font-size: 20px;
     }
 
-  .cash{
+    .cash{
     background-color: var(--blue);
     font-family: "CodeProBold";
+    font-size: 20px;
     width: 150px;
     height: 150px;
     border-radius: 10px;
@@ -525,7 +530,7 @@
     line-height: 150px;
     }
 
-  .choiceContainer{
+    .choiceContainer{
     background-color: var(--green);
     display: flex;
     grid-gap: 20px;
@@ -533,41 +538,46 @@
     justify-content: center;
     }
 
-  .businesses{
+    .businesses{
     flex-grow: 1;
+    display: flex;
+    flex-direction:  column;
     background-color: var(--beige);
     margin: 20px;
     border-radius: 10px;
     height: 400px;
     text-align: center;
+    align-items: center;
     }
 
-  .businessName{
+    .businessName{
     font-family: "CodeProBold";
     color: var(--darkBrown);
-    font-size: 32px;
+    font-size: 40px;
     margin: 10px;
     text-align: center;
     }
 
-  .businessDescription{
+    .businessDescription{
     font-family: "hero";
     color: var(--darkBrown);
-    font-size: 24px;
+    font-size: 30px;
     margin: 10px;
+    width: 500px;
     text-align: center;
     }
 
-  .expectedReturn{
+    .expectedReturn{
     font-family: "CodePro";
     color: var(--red);
-    font-size: 15px;
+    font-size: 20px;
     margin: 20px;
     text-align: center;
     }
 
-  input{
-    margin: 10px;
+    input{
+      margin: 10px;
+      font-size: 24px;
     }
 
   </style>

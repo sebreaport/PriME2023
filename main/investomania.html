@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Investomania!</title>
+    <link rel="icon" href="./images/logo_round.png">
+    <link rel="stylesheet" href="globalStyles.css">
+
+    <script type="text/javascript">
+      const companyNames = ["Jollidonald's","Gloverge","Mercurika"];
+      const mainInstructions = [
+        "INVESTOMANIA </br>",
+        "INVESTOMANIA </br>",
+        "INVESTOMANIA </br>",
+        "INVESTOMANIA </br>"
+      ]
+      const subInstructions = [
+        "You are introduced to three companies! Choose how you will invest your money!",
+        "The first round is done! Choose how you will invest your money next!",
+        "The new telcos suck! Increase in " + companyNames[1] + " investment is actually higher!",
+        "A New Virus strikes! Increase in " + companyNames[2] + " investment is actually higher!",
+        "Food Item Does Not Sell! Increase in " + companyNames[0] + " investment is actually lower!"
+      ]
+      const businessDesc = [
+        round1 = [
+          "A fast-food corporation who's happy to BEE a CLOWN!",
+          "A Telco that want's to reach CONVERGENCE around the GLOBE!",
+          "A Drug Store sourcing GENERIC medicine from MERCURY!",
+        ],
+        round2 = [
+          "No New Changes, Expects regular increase",
+          "New Telco Entry, expects reduction in income",
+          "Start selling new drug, expects greater income",
+        ],
+        round3 = [
+          "Opened new branches, expects more customer",
+          "Introduces 6G technology, increase income",
+          "No New Changes, Expects regular increase",
+        ],
+        round4 = [
+          "Introducing new food item, increase income",
+          "No New Changes, Expects regular increase",
+          "People still recovering from the virus, expects greater income",
+        ]
+      ]
+
+      const percentChanges = [
+        round1 = [
+          company1 = [10,15],
+          company2 = [15,20],
+          company3 = [12,17]
+        ],
+        round2 = [
+          company1 = [10,15],
+          company2 = [15,20], //Gimmick
+          company3 = [15,20]
+        ],
+        round3 = [
+          company1 = [12,17],
+          company2 = [15,20],
+          company3 = [15,20] //Gimmick
+        ],
+        round4 = [
+          company1 = [10,15], //Gimmick
+          company2 = [10,15],
+          company3 = [15,20]
+        ]
+      ]
+
+      const projectedChanges = [
+        round1 = [
+          company1 = [10,15],
+          company2 = [15,20],
+          company3 = [12,17]
+        ],
+        round2 = [
+          company1 = [10,15],
+          company2 = [10,15],//Gimmick
+          company3 = [15,20]
+        ],
+        round3 = [
+          company1 = [12,17],
+          company2 = [15,20],
+          company3 = [10,15] //Gimmick
+        ],
+        round4 = [
+          company1 = [15,20], //Gimmick
+          company2 = [10,15],
+          company3 = [15,20]
+        ]
+      ]
+
+      actualPercentChanges = [
+        round1 = [0,0,0],
+        round2 = [0,0,0],
+        round3 = [0,0,0],
+        round4 = [0,0,0]
+      ]
+
+      var username;
+      var userList = [];
+      var round = 1;
+      var roundCapital;
+      var capital = 1000000;
+      invested = [0,0,0];
+      lastValue = [0,0,0];
+      profit = [0,0,0];
+      gain = 0;
+      var changeInformation = ""
+
+      window.onload=function(){
+        importinput();
+        if (localStorage.getItem("loggedin") == 0 || localStorage.getItem("loggedin") === null) {
+          window.location = "login.html";
+        }else{
+          username = localStorage.getItem("username");
+        }
+        document.getElementById("game").style.display = "none";
+        document.getElementsByClassName("topHeader")[0].style.display = "none";
+        document.getElementById("welcomeMessage").innerHTML = "Hi " + username + "! Welcome to Investomania!";
+
+        var welcomeSubMessage = [
+          "This game is all about investing! You have four rounds (four years) to maximize your initial capital of <b>P1,000,000</b>!</br>",
+          "Here are the instructions:",
+          "1. There are three companies to choose from, each with different backgrounds and decsriptions.",
+          "2. You are to invest <u>ALL</u> your money amongst the companies. You get to decide how to allocate your capital, but you must invest a minimum of <u>P100,000</u> into each company!</br></br",
+          "3. After each round, you will get back the money you invested into each company with the respective profits that they earned.",
+          "4. Your goal is to gain maximum profit!"
+        ];
+
+        document.getElementById("welcomeSubMessage").innerHTML = welcomeSubMessage.join("</br></br>");
+      }
+
+      //JARED CODE TO POST TO SHEETS START
+      function internalHandler(e) {
+        if (closable == false) {
+          e.preventDefault(); // required in some browsers
+          e.returnValue = ""; // required in some browsers
+          return "Please wait for it to end loading"; // only works in old browsers
+        }
+      }
+
+      if (window.addEventListener) {
+          window.addEventListener('beforeunload', internalHandler, true);
+      } else if (window.attachEvent) {
+          window.attachEvent('onbeforeunload', internalHandler);
+      }
+
+      function importinput(){
+        fetch("https://api.sheetson.com/v2/sheets/results", {
+          headers: {
+            "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+            "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+          }
+        }).then(r => r.json())
+        .then(result => {
+          var playerData = result["results"];
+          for (var i = 0; i < playerData.length; i++) {
+            userList.push(playerData[i]["User"]);
+          }
+        })
+      }
+
+      function postsheets() {
+        importinput();
+        var newAddress = ""
+        for (var i = 0; i < userList.length; i++) {
+          if (username == userList[i]) {
+            var index = i + 2;
+            newAddress = "https://api.sheetson.com/v2/sheets/results/" + index;
+          }
+        }
+        var d = new Date();
+        fetch(newAddress, {
+          method: "PUT",
+          headers: {
+            "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+            "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({'Score 2': gain})
+        }).then(r => r.json())
+        .then(result => {
+          closable = true;
+        })
+      }
+      //JARED CODE TO POST TO SHEETS END
+
+      function startEnd(){
+        if (round == 5) {
+          alert("Game Over! Thanks for Playing!");
+          window.location = "facidashboard.html";
+        }else{
+          document.getElementById("welcome").style.display = "none";
+          document.getElementById("game").style.display = "block";
+          document.getElementsByClassName('resultsFromPrev')[0].style.display = "none";
+          for (var i = 0; i < companyNames.length; i++) {
+            document.getElementsByClassName("businessName")[i].innerHTML = companyNames[i];
+          }
+          roundCapital = 1000000;
+          updateFields(round-1);
+        }
+      }
+
+      function updateFields(currentRound){
+        document.getElementsByClassName("topHeader")[0].innerHTML = mainInstructions[currentRound];
+        document.getElementsByClassName("botHeader")[0].innerHTML = subInstructions[currentRound];
+        document.getElementsByClassName("roundIndicator")[0].innerHTML = "ROUND " + (currentRound + 1);
+        document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
+
+        changeInformation += "New Capital: " + "P " + capital;
+        document.getElementsByClassName("resultsFromPrev")[0].innerHTML = changeInformation;
+
+        for (var i = 0; i < businessDesc[currentRound].length; i++) {
+          document.getElementsByClassName("businessDeion")[i].innerHTML = businessDesc[currentRound][i];
+        }
+
+        for (var i = 0; i < projectedChanges[currentRound].length; i++) {
+          document.getElementsByClassName("expectedReturn")[i].innerHTML = "Expected Return: " + projectedChanges[currentRound][i][0] + "% - " + projectedChanges[currentRound][i][1] +"%";
+        }
+      }
+
+      function enteredAmmount(company,ammount){
+        ammount = parseInt(ammount);
+        if (isNaN(ammount) == true) {
+          ammount = 0;
+        }
+        //save last value
+        for (var i = 0; i < lastValue.length; i++) {
+          if (company == i) {
+            if (lastValue[i] == 0) {
+              lastValue[i] == ammount;
+            }
+          }
+        }
+
+        resetCapital();
+        var moneyInvested = 0;
+        for (var i = 0; i < invested.length; i++) {
+          if(company == i){
+            moneyInvested += ammount;
+          }else{
+            moneyInvested += invested[i];
+          }
+        }
+        if (moneyInvested > capital) {
+          recalculateCapital();
+          document.getElementsByClassName("ammountInv")[company].value = lastValue[company];
+          alert("You're Out of Money!");
+        }else{
+          invested[company] = ammount;
+          recalculateCapital();
+          lastValue[company] = ammount;
+        }
+        document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
+        checkzero();
+      }
+
+      function resetCapital(){
+        for (var i = 0; i < invested.length; i++) {
+          capital += invested[i];
+        }
+      }
+
+      function recalculateCapital(){
+        for (var i = 0; i < invested.length; i++) {
+          capital -= invested[i];
+        }
+      }
+
+      function checkzero(){
+        if (capital == 0) {
+          for (var i = 0; i < invested.length; i++) {
+            if(invested[i] == 0){
+              document.getElementsByClassName("ammountInv")[i].disabled = true;
+            }
+          }
+        }else{
+          for (var i = 0; i < invested.length; i++) {
+              document.getElementsByClassName("ammountInv")[i].disabled = false;
+          }
+        }
+      }
+
+      function autofill(company){
+        resetCapital();
+        var moneyInvested = 0;
+        for (var i = 0; i < invested.length; i++) {
+          if (company != i) {
+            moneyInvested += invested[i];
+          }
+        }
+        var autoFilled = capital - moneyInvested;
+        invested[company] = autoFilled;
+        recalculateCapital();
+        lastValue[company] = autoFilled;
+        document.getElementsByClassName("ammountInv")[company].value = autoFilled;
+        document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
+        checkzero();
+      }
+
+      function nextRound(){
+        var totalInvestment = 0;
+        for (var i = 0; i < invested.length; i++) {
+          totalInvestment += invested[i];
+          if (invested[i] < 100000 && round != 5) {
+            alert("Invest at least P100,000 on every company!");
+            return;
+          }
+        }
+
+        if (totalInvestment != roundCapital && round != 5) {
+          alert("You did not use all your money!");
+          return;
+        }
+
+        if (round == 5) {
+          endGame();
+          return;
+        }
+
+        if (confirm("Confirm Investment?") == true) {
+            console.log("Old Capital: " + roundCapital);
+            console.log(invested);
+            capital = 0;
+            changeInformation = "";
+            for (var i = 0; i < invested.length; i++) {
+              var max = percentChanges[round - 1][i][1];
+              var min = percentChanges[round - 1][i][0];
+              var change = (Math.floor(Math.random() * (max - min + 1) ) + min);
+
+              profit[i] = Math.floor(invested[i] * (1 + change/100));
+              capital += profit[i];
+              changeInformation += "Investment to " + companyNames[i] + ": P" + invested[i] + " --> P" + profit[i] + " (" + change +"%) </br>";
+
+              invested[i] = 0;
+              lastValue[i] = 0;
+              document.getElementsByClassName("ammountInv")[i].value = "";
+              actualPercentChanges[round-1][i] = change;
+            }
+
+            document.getElementsByClassName("resultsFromPrev")[0].innerHTML = changeInformation;
+            document.getElementsByClassName('resultsFromPrev')[0].style.display = "block";
+            roundCapital = capital;
+            console.log(actualPercentChanges[round-1]);
+            console.log(profit);
+            console.log("New capital: " + capital);
+
+            if (round == 4) {
+              document.getElementsByClassName('choiceContainer')[0].style.display = "none";
+              document.getElementsByClassName("topHeader")[0].innerHTML = subInstructions[4];
+              document.getElementsByClassName("botHeader")[0].innerHTML = subInstructions[4];
+              document.getElementsByClassName("roundIndicator")[0].innerHTML = "GAME END!";
+              document.getElementsByClassName("cash")[0].innerHTML = "P " + capital;
+
+              changeInformation += "New Capital: " + "P " + capital;
+              document.getElementsByClassName("resultsFromPrev")[0].innerHTML = changeInformation;
+              document.getElementById("nextRound").innerHTML = "End Game";
+              round+=1;
+            }else{
+              round+=1;
+              updateFields(round-1);
+            }
+        }else{
+          return;
+        }
+      }
+
+      function endGame(){
+        document.getElementById("welcome").style.display = "block";
+        document.getElementById("game").style.display = "none";
+
+        gain = capital - 1000000;
+        postsheets();
+
+        document.getElementById("welcomeMessage").innerHTML = "Congratulations, " + username + ", you increased your capital from P1000000 to P" + capital + "!";
+        document.getElementById("welcomeSubMessage").innerHTML = "That is a gain of P" + gain + "!";
+        document.getElementById("startEndButton").innerHTML = "End Game";
+      }
+    </script>
+
+    <style>
+      *{
+        padding: 0px;
+        margin: 0px;
+      }
+
+      @font-face {
+        font-family: "CodeProBold";
+        src: url("./fonts/Code Pro Bold LC.otf");
+      }
+
+      @font-face {
+        font-family: "CodePro";
+        src: url("./fonts/Code Pro LC.otf");
+      }
+
+      @font-face {
+        font-family: "Hero";
+        src: url("./fonts/Hero.otf");
+      }
+
+      :root{
+        --red: #B8555A;
+        --orange: #FC9141;
+        --yellow: #E8C46E;
+        --blue: #5EAAAF;
+        --green: #839B7B;
+        --lightBrown: #94816D;
+        --brown: #57453B;
+        --darkBrown: #2E2E2B;
+        --beige: #D1B07A;
+      }
+
+      .logocontainer{
+        background-color: rgba(255,255,255,50%);
+        margin: 20px;
+        display: flex;
+        width: auto;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      .logo{
+        height: 100px;
+        opacity: 100%;
+      }
+
+      .welcome{
+        background-color: rgba(255,255,255,50%);
+        text-align: center;
+        border-radius: 10px;
+        width: 60%;
+        margin: 50px auto;
+        padding: 20px;
+      }
+
+      .welcomeMessage{
+        margin: 20px;
+        font-family: "CodeProBold";
+        color: var(--darkBrown);
+      }
+
+      .welcomeSubMessage{
+        margin: 20px;
+        font-family: "Hero";
+      }
+
+      .game{
+        background-color: rgba(255,255,255,50%);
+        width: 95%;
+        margin: 20px auto;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .gameHeader{
+        display: flex;
+        grid-gap: 20px;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(155,255,255,50%);
+        height: 150px;
+        padding: 10px;
+      }
+
+      body{
+        background: url("./images/dashboard_bg.png");
+        background-size: cover;
+      }
+
+      button{
+        font-family: "CodeProBold";
+        color: white;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        border-color: var(--red);
+        background-color: var(--red);
+      }
+      .roundIndicator{
+      background-color: var(--blue);
+      font-family: "CodeProBold";
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+      text-align: center;
+      line-height: 150px;
+      }
+
+      .mainHeader{
+        flex-grow: 1;
+        background-color: var(--orange);
+        height: 135px;
+        border-radius: 10px;
+        padding: 10px;
+        }
+
+      .topHeader{
+        font-family: "CodeProBold";
+        font-size: 20px;
+        }
+
+      .botHeader{
+        font-family: "CodeProBold";
+        font-size: 18px;
+        margin-top: 10px;
+        }
+
+      .resultsFromPrev{
+        margin-top: 10px;
+        font-family: "Hero";
+        font-size: 16px;
+        }
+
+      .cash{
+        background-color: var(--blue);
+        font-family: "CodeProBold";
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+        text-align: center;
+        line-height: 150px;
+        }
+
+      .choiceContainer{
+        background-color: var(--green);
+        display: flex;
+        grid-gap: 20px;
+        align-items: center;
+        justify-content: center;
+        }
+
+      .businesses{
+        flex-grow: 1;
+        background-color: var(--beige);
+        margin: 20px;
+        border-radius: 10px;
+        height: 400px;
+        text-align: center;
+        }
+
+      .businessName{
+        font-family: "CodeProBold";
+        color: var(--darkBrown);
+        font-size: 32px;
+        margin: 10px;
+        text-align: center;
+        }
+
+      .businessDescription{
+        font-family: "hero";
+        color: var(--darkBrown);
+        font-size: 24px;
+        margin: 10px;
+        text-align: center;
+        }
+
+      .expectedReturn{
+        font-family: "CodePro";
+        color: var(--red);
+        font-size: 15px;
+        margin: 20px;
+        text-align: center;
+        }
+
+      input{
+        margin: 10px;
+        }
+    </style>
+
+  </head>
+  <body>
+    <div class="logocontainer"><img class="logo "src="./images/logo.png"></div>
+    <div class="page">
+      <div class="welcome" id="welcome">
+        <h1 class="welcomeMessage" id="welcomeMessage">Welcome to Investomania!</h1>
+        <p class="welcomeSubMessage" id="welcomeSubMessage">This game is all about investing!</p>
+        <button type="button" name="button" onclick="startEnd()" id="startEndButton"> Begin! </button>
+      </div>
+      <div class="game" id="game">
+        <div class="gameHeader">
+          <div class="roundIndicator">ROUND 1</div>
+          <div class="mainHeader">
+            <div class="topHeader">Main Instruction or Result</div>
+            <div class="botHeader">Sub Instruction</div>
+            <div class="resultsFromPrev">Results from Previous!</div>
+          </div>
+          <div class="cash">P1,000,000</div>
+        </div>
+        <div class="choiceContainer">
+          <div class="businesses">
+            <p class="businessName">Business<h1>
+            <p class="businessDescription">Insert Description Here</p>
+            <p class="expectedReturn">Expected Return</p>
+            <input type="number" class="ammountInv" name="ammountInv" oninput="enteredAmmount(0,this.value)">
+            <button type="button" class="autofill" onclick="autofill(0)">Max Out</button>
+          </div>
+          <div class="businesses">
+            <p class="businessName">Business<h1>
+            <p class="businessDescription">Insert Description Here </p>
+            <p class="expectedReturn">Expected Return</p>
+            <input type="number" class="ammountInv" name="ammountInv" oninput="enteredAmmount(1,this.value)">
+            <button type="button" class="autofill" onclick="autofill(1)">Max Out</button>
+          </div>
+          <div class="businesses">
+            <p class="businessName">Business<h1>
+            <p class="businessDescription">Insert Description Here </p>
+            <p class="expectedReturn">Expected Return</p>
+            <input type="number" class="ammountInv" name="ammountInv" oninput="enteredAmmount(2,this.value)">
+            <button type="button" class="autofill" onclick="autofill(2)">Max Out</button>
+          </div>
+        </div>
+        <button type="button" name="button" onclick="nextRound()" id="nextRound">Next Round!</button>
+    </div>
+  </body>
+</html>

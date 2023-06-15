@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+  <style>
+
+.background-container {
+      background-image: url('tworizal.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+.picture-behind {
+      background-image: url('primelong.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -2;
+    }
+
+
+    .game-button {
+      width: 40px;
+      height: 20px;
+      padding: 0;
+      border: none;
+      background-color: transparent;
+      position: absolute;
+      top: 317px; /* Specify the distance from the top of the page */
+      left: 570px; /* Specify the distance from the left of the page */
+}
+   
+ /* Modal styles */
+
+.modal {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  width: 500px;
+  height: 300px;
+  overflow: auto;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes modalFadeIn {
+      from {
+        top: -100%;
+        opacity: 0;
+      }
+      to {
+        top: 0;
+        opacity: 1;
+      }
+    }
+
+.modal-content {
+  background-color: #e8c46e;
+  background-clip: padding-box;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  outline: 0;
+  max-width: 600px;
+font-family: "Ubuntu", Arial, sans-serif;
+}
+
+.modal-header {
+  background-color: #FC9141;
+  padding: 10px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  height: 30px;
+  margin-bottom: 10px;
+  align-items: center;
+  display:flex;
+  justify-content: space-between;
+font-family: "Ubuntu", Arial, sans-serif;
+  order: 1;
+}
+
+
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      order: 2;
+font-family: "Ubuntu", Arial, sans-serif;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Button styles */
+    .button {
+      display: inline-block;
+      background-color: #5eaaaf;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: opacity 0.3s;
+      opacity: 0.5;
+font-family: "Ubuntu", Arial, sans-serif;
+    }
+
+    .button:hover {
+      opacity: 1;
+    }
+
+.button img {
+      vertical-align: middle;
+    }
+
+    .buton {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: inline-block;
+      background-color: #5eaaaf;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: opacity 0.3s;
+      opacity: 0.5;
+	font-family: "Ubuntu", Arial, sans-serif;
+    }
+
+    .buton:hover {
+      opacity: 1;
+    }
+
+    .buton2 img {
+      vertical-align: middle;
+    }
+
+    .top-right-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+
+    .buon {
+      display: inline-block;
+      background-color: #5eaaaf;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: opacity 0.3s;
+}
+
+	.ineedspace {
+		line-height:1.5;
+}
+
+  </style>
+</head>
+<body>
+<div class="background-container"></div>
+  <div class="picture-behind"></div>
+
+  <!-- Button to open the modal -->
+  <!-- Button to open the first modal -->
+  <button id="myBtn1" class="button"><b>Here it is!</b></button>
+
+  <!-- Button with image to open the second modal -->
+  <button id="myBtn2" class="game-button">
+  </button>
+
+  <!-- Button to open the second modal -->
+  <button id="myBtn3" class="buton"><b>Instructions</b></button>
+
+<!-- Modal box with close button -->
+  <div id="myModal1" class="modal">
+    <div class="modal-content">
+	<div class="modal-header">
+      <span class="close">&times;</span>
+      <h2 style="font-family: "Ubuntu", Arial, sans-serif;">Here is what you need to find.</h2>
+	</div>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Rizal (not the text)</b></p>
+    </div>
+  </div>
+
+<!-- Modal box with hyperlink button -->
+  <div id="myModal2" class="modal">
+    <div class="modal-content">
+	<div class="modal-header">
+      <h2 style="font-family: "Ubuntu", Arial, sans-serif;">Congratulations, you have found it!</h2>
+	</div>
+      <p style="font-family: "Ubuntu", Arial, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;<img src="realpepecutout.png" height="200" width="170"><br>&nbsp;&nbsp;&nbsp;&nbsp;<b>You can find these Rizal cutouts at the libraries!</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;Photo by Danielle Cu</p>
+      <a href="5.html" target="_blank" class="buon">Next</a>
+    </div>
+  </div>
+
+  <!-- Modal box with close button -->
+  <div id="myModal3" class="modal">
+    <div class="modal-content">
+	<div class="modal-header">
+      <span class="close">&times;</span>
+      <h2 style="font-family: "Ubuntu", Arial, sans-serif;">Welcome to "Here it is!"</h2>
+	</div>
+      <p style="font-family: "Ubuntu", Arial, sans-serif;" class="ineedspace">&nbsp;&nbsp;&nbsp;&nbsp;In this game, you will be tasked to find the objective in this &nbsp;&nbsp;&nbsp;&nbsp;picture!
+Click on "Here it is!" on the top left to know the objective.
+&nbsp;&nbsp;&nbsp;&nbsp;Search the objective in the picture.
+Once you found it, click on it.
+&nbsp;&nbsp;&nbsp;&nbsp;Click "Next" to move on the next level.
+You can find this pop-up &nbsp;&nbsp;&nbsp;&nbsp;again by clicking "Instructions" on the top-right!</p>
+    </div>
+  </div>
+
+  <script>
+    // Get the modal boxes
+    var modal1 = document.getElementById("myModal1");
+    var modal2 = document.getElementById("myModal2");
+    var modal3 = document.getElementById("myModal3");
+
+    // Get the buttons that open the modals
+    var btn1 = document.getElementById("myBtn1");
+    var btn2 = document.getElementById("myBtn2");
+    var btn3 = document.getElementById("myBtn3");
+
+    // Get the close buttons for modal1
+    var close1 = document.getElementsByClassName("close")[0];
+
+    // Get the close buttons for modal3
+    var close3 = document.getElementsByClassName("close")[1];
+
+    // Open modal1 when the button is clicked
+    btn1.onclick = function() {
+      modal1.style.display = "block";
+    }
+
+    // Open modal2 when the button is clicked
+    btn2.onclick = function() {
+      modal2.style.display = "block";
+    }
+
+    // Open modal3 when the button is clicked
+    btn3.onclick = function() {
+      modal3.style.display = "block";
+    }
+
+// Open modal3 when the page is loaded
+window.onload = function() {
+  modal1.style.display = "block";
+};
+    // Close modal1 when the close button is clicked
+    close1.onclick = function() {
+      modal1.style.display = "none";
+    }
+
+    // Close modal1 when clicking outside the modal content
+    window.onclick = function(event) {
+      if (event.target == modal1) {
+        modal1.style.display = "none";
+      }
+}
+    // Close modal3 when the close button is clicked
+    close3.onclick = function() {
+      modal3.style.display = "none";
+    }
+
+    // Close modal3 when clicking outside the modal content
+    window.onclick = function(event) {
+      if (event.target == modal3) {
+        modal3.style.display = "none";
+      }
+}
+  </script>
+</body>
+</html>

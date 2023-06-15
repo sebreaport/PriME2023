@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>PriME Login</title>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+
+      window.onload=function(){
+        document.getElementById("button").addEventListener("click", submit, false);
+        importinput();
+      }
+
+      var yourData = [];
+      function importinput (){
+        // const fetch = require('isomorphic-fetch');
+        fetch("https://api.sheetson.com/v2/sheets/results", {
+          headers: {
+            "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+            "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+          }
+        }).then(r => r.json())
+        .then(result => {
+          yourData = result["results"];
+          document.getElementById("button").innerHTML = "Log in";
+          document.getElementById("button").disabled = false;
+        })
+      }
+
+      function submit (){
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        let checker = 0;
+        for(let i = 0; i < yourData.length; i++){
+          let rowInfo = yourData[i]
+          if (username == rowInfo["User"] && password == rowInfo["Password"]) {
+            checker = 1; //Confirms username and password
+            localStorage.setItem("loggedin",1);
+            if (username == "stationManager") {
+              window.location = "boothdashboard.html";
+            }else {
+              localStorage.setItem("username", username);
+              localStorage.setItem("open", yourData[0]["Open"]);
+              localStorage.setItem("yourData", JSON.stringify(yourData));
+              alert("Login Successful! Welcome " + username +"!");
+              window.location = "facidashboard.html";
+            }
+          }
+        }
+        if (checker == 0) {
+          alert("Invalid Username / Password")
+        }
+      }
+    </script>
+
+    <style>
+      @font-face {
+        font-family: "CodeProBold";
+        src: url("./fonts/Code Pro Bold LC.otf");
+      }
+
+      @font-face {
+        font-family: "Hero";
+        src: url("./fonts/Hero.otf");
+      }
+
+      *{
+        padding: 0px;
+        margin: 0px;
+      }
+
+      :root{
+        --red: #B8555A;
+        --orange: #FC9141;
+        --yellow: #E8C46E;
+        --blue: #5EAAAF;
+        --green: #839B7B;
+        --lightBrown: #94816D;
+        --brown: #57453B;
+        --darkBrown: #2E2E2B;
+        --beige: #D1B07A;
+      }
+
+      input{
+        font-size: 20px;
+        padding: 5px;
+        text-align: center;
+        border: 1px solid gray;
+        margin: 2px;
+      }
+
+      button{
+        font-family: "CodeProBold";
+        color: white;
+        margin: 20px;
+        padding: 10px;
+        border-radius: 10px;
+        border-color: var(--red);
+        background-color: var(--red);
+      }
+
+      button:hover{
+        color: var(--darkBrown);
+      }
+
+      input{
+        font-family: "Hero";
+        border-radius: 10px;
+      }
+
+      #page{
+        width: 100%;
+        height: 980px;
+        position: absolute;
+        background-image: url("./images/login_bg.png");
+        background-repeat: no-repeat;
+        box-sizing: border-box;
+        background-size: cover;
+        position: absolute;
+        margin-bottom: 0px;
+      }
+
+      .sector1{
+        width: 100%;
+        height: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+      }
+      .sector2{
+        width: 100%;
+        height: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .headtext{
+        font-size: 40px;
+        font-family: "Hero";
+        margin-top: 30px;
+      }
+
+      .headlogo{
+        margin-top: 25px;
+      }
+
+      .protopia{
+        font-size: 50px;
+        font-style: italic;
+        font-family: "CodeProBold";
+        margin-left: 50px;
+      }
+
+      .signboard{
+        width: 600px;
+        height: 100%;
+        margin-top: 8px;
+        background-image: url("./images/signboard.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+    .loginholder{
+      margin: 20px 0px 0px 76px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    </style>
+  </head>
+
+<body>
+  <div id="page">
+    <div class="sector1">
+      <div class="headtext">
+        Welcome To
+      </div>
+      <div class="headlogo">
+        <img src="./images/logo.png" height="180px">
+      </div>
+      <div class="protopia">
+        PROTOPIA
+      </div>
+    </div>
+
+    <div class="sector2">
+        <div class="signboard">
+          <div class="loginholder">
+            <form class="login">
+              <input type="text" name="name" id="username" value="" placeholder="Username"/><br>
+              <input type="password" name="password" id="password" value="" placeholder="Password"/>
+            </form>
+            <button id="button" disabled="true" type="submit" name="button">Loading...</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+</body>
+</html>

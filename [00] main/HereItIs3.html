@@ -4,18 +4,18 @@
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
   <style>
 
-.background-container {
-      background-image: url('myboyteolovesrace.png');
+    .background-container {
+      display: flex;
+      background-image: url('./images/myboyteolovesrace.png');
       background-size: 100% 100%;
       background-repeat: no-repeat;
-      background-position: center center;
-      background-attachment: fixed;
-      width: 100%;
-      height: 100%;
+      width: 1920px;
+      height: 1080px;
       position: fixed;
       top: 0;
       left: 0;
       z-index: -1;
+      position: absolute;
     }
 
     .game-button {
@@ -25,10 +25,10 @@
       border: none;
       background-color: transparent;
       position: absolute;
-      top: 210px; /* Specify the distance from the top of the page */
-      left: 1270px; /* Specify the distance from the left of the page */
-}
-   
+      top: 380px; /* Specify the distance from the top of the page */
+      left: 1785px;
+    }
+
  /* Modal styles */
 
 .modal {
@@ -177,14 +177,14 @@ font-family: "Ubuntu", Arial, sans-serif;
   </style>
 </head>
 <body>
-<div class="background-container"></div>
-  <!-- Button to open the modal -->
-  <!-- Button to open the first modal -->
-  <button id="myBtn1" class="button"><b>Here it is!</b></button>
-
+<div class="background-container">
   <!-- Button with image to open the second modal -->
   <button id="myBtn2" class="game-button">
   </button>
+</div>
+  <!-- Button to open the modal -->
+  <!-- Button to open the first modal -->
+  <button id="myBtn1" class="button"><b>Here it is!</b></button>
 
   <!-- Button to open the second modal -->
   <button id="myBtn3" class="buton"><b>Instructions</b></button>
@@ -196,7 +196,7 @@ font-family: "Ubuntu", Arial, sans-serif;
       <span class="close">&times;</span>
       <h2 style="font-family: "Ubuntu", Arial, sans-serif;">Here is what you need to find.</h2>
 	</div>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Teo</b></p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/teotheturtle.png" height="100" width="100"></p>
     </div>
   </div>
 
@@ -235,6 +235,7 @@ You can find this pop-up &nbsp;&nbsp;&nbsp;&nbsp;again by clicking "Instructions
       <h2 style="font-family: "Ubuntu", Arial, sans-serif;">And finally...</h2>
 	</div>
       <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>You have finished the game! Hope you enjoyed it!</b></p>
+      <a href="facidashboard.html" class="buon">Finish</a>
     </div>
   </div>
 
@@ -260,6 +261,9 @@ You can find this pop-up &nbsp;&nbsp;&nbsp;&nbsp;again by clicking "Instructions
     // Get the close buttons for modal4
     var close4 = document.getElementsByClassName("close")[2];
 
+    //Seb
+    var userList=[];
+
     // Open modal1 when the button is clicked
     btn1.onclick = function() {
       modal1.style.display = "block";
@@ -279,12 +283,75 @@ You can find this pop-up &nbsp;&nbsp;&nbsp;&nbsp;again by clicking "Instructions
     btn4.onclick = function() {
       modal2.style.display = "none";
       modal4.style.display = "block";
+      postsheets();
     }
 
 // Open modal3 when the page is loaded
 window.onload = function() {
   modal1.style.display = "block";
+
+  importinput();
+  if (localStorage.getItem("loggedin") == 0 || localStorage.getItem("loggedin") === null) {
+    window.location = "login.html";
+  }else{
+    username = localStorage.getItem("username");
+  }
 };
+
+//JARED CODE TO POST TO SHEETS START
+function internalHandler(e) {
+  if (closable == false) {
+    e.preventDefault(); // required in some browsers
+    e.returnValue = ""; // required in some browsers
+    return "Please wait for it to end loading"; // only works in old browsers
+  }
+}
+
+if (window.addEventListener) {
+    window.addEventListener('beforeunload', internalHandler, true);
+} else if (window.attachEvent) {
+    window.attachEvent('onbeforeunload', internalHandler);
+}
+
+function importinput(){
+  fetch("https://api.sheetson.com/v2/sheets/results", {
+    headers: {
+      "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+      "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+    }
+  }).then(r => r.json())
+  .then(result => {
+    var playerData = result["results"];
+    for (var i = 0; i < playerData.length; i++) {
+      userList.push(playerData[i]["User"]);
+    }
+  })
+}
+
+function postsheets() {
+  importinput();
+  var newAddress = ""
+  for (var i = 0; i < userList.length; i++) {
+    if (username == userList[i]) {
+      var index = i + 2;
+      newAddress = "https://api.sheetson.com/v2/sheets/results/" + index;
+    }
+  }
+  var d = new Date();
+  fetch(newAddress, {
+    method: "PUT",
+    headers: {
+      "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+      "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({'Score 3': 500})
+  }).then(r => r.json())
+  .then(result => {
+    closable = true;
+  })
+}
+//JARED CODE TO POST TO SHEETS END
 
     // Close modal1 when the close button is clicked
     close1.onclick = function() {
@@ -324,5 +391,3 @@ window.onload = function() {
   </script>
 </body>
 </html>
-
-

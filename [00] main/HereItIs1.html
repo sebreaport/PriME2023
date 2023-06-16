@@ -3,31 +3,30 @@
 <head>
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
 <style>
-
   .background-container {
-        background-image: url('./images/testpic_inpic.png');
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-attachment: fixed;
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: -1;
-      }
+      background-image: url('./images/testpic_inpic.png');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      width: 1920px;
+      height: 1080px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      position: absolute;
+    }
 
-      .game-button {
-        width: 40px;
-        height: 20px;
-        padding: 0;
-        border: none;
-        background-color: transparent;
-        position: absolute;
-        top: 80px; /* Specify the distance from the top of the page */
-        left: 470px; /* Specify the distance from the left of the page */
-  }
+    .game-button {
+      width: 40px;
+      height: 20px;
+      padding: 0;
+      border: none;
+      background-color: transparent;
+      position: absolute;
+      margin-top: 140px; /* Specify the distance from the top of the page */
+      margin-left: 665px; /* Specify the distance from the left of the page */
+    }
 
    /* Modal styles */
 
@@ -63,7 +62,7 @@
     box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
     outline: 0;
     max-width: 600px;
-  font-family: "Ubuntu", Arial, sans-serif;
+    font-family: "Ubuntu", Arial, sans-serif;
   }
 
   .modal-header {
@@ -76,7 +75,7 @@
     align-items: center;
     display:flex;
     justify-content: space-between;
-  font-family: "Ubuntu", Arial, sans-serif;
+    font-family: "Ubuntu", Arial, sans-serif;
     order: 1;
   }
 
@@ -89,7 +88,7 @@
         font-weight: bold;
         cursor: pointer;
         order: 2;
-  font-family: "Ubuntu", Arial, sans-serif;
+        font-family: "Ubuntu", Arial, sans-serif;
       }
 
       .close:hover,
@@ -111,14 +110,14 @@
         border-radius: 4px;
         transition: opacity 0.3s;
         opacity: 0.5;
-  font-family: "Ubuntu", Arial, sans-serif;
+        font-family: "Ubuntu", Arial, sans-serif;
       }
 
       .button:hover {
         opacity: 1;
       }
 
-  .button img {
+      .button img {
         vertical-align: middle;
       }
 
@@ -136,7 +135,7 @@
         border-radius: 4px;
         transition: opacity 0.3s;
         opacity: 0.5;
-  	font-family: "Ubuntu", Arial, sans-serif;
+  	     font-family: "Ubuntu", Arial, sans-serif;
       }
 
       .buton:hover {
@@ -165,23 +164,20 @@
         cursor: pointer;
         border-radius: 4px;
         transition: opacity 0.3s;
-  }
+      }
 
-  	.ineedspace {
-  		line-height:1.5;
-  }
-
+      .ineedspace {
+  		    line-height:1.5;
+    }
 </style>
 </head>
 <body>
-<div class="background-container"></div>
+<div class="background-container">
+  <button id="myBtn2" class="game-button"></button>
+</div>
   <!-- Button to open the modal -->
   <!-- Button to open the first modal -->
   <button id="myBtn1" class="button"><b>Here it is!</b></button>
-
-  <!-- Button with image to open the second modal -->
-  <button id="myBtn2" class="game-button">
-  </button>
 
   <!-- Button to open the second modal -->
   <button id="myBtn3" class="buton"><b>Instructions</b></button>
@@ -204,7 +200,7 @@
       <h2 style="font-family: "Ubuntu", Arial, sans-serif;">Congratulations, you have found it!</h2>
 	</div>
       <p style="font-family: "Ubuntu", Arial, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;PriME is the beginning of your ME journey!<br><br>&nbsp;&nbsp;&nbsp;&nbsp;Pixel Art by Jimmy Something</p>
-      <a href="2.html" target="_blank" class="buon">Next</a>
+      <a href="HereItIs2.html" class="buon">Next</a>
     </div>
   </div>
 
@@ -224,7 +220,7 @@ You can find this pop-up &nbsp;&nbsp;&nbsp;&nbsp;again by clicking "Instructions
     </div>
   </div>
 
-  <script>
+<script>
     // Get the modal boxes
     var modal1 = document.getElementById("myModal1");
     var modal2 = document.getElementById("myModal2");
@@ -240,6 +236,9 @@ You can find this pop-up &nbsp;&nbsp;&nbsp;&nbsp;again by clicking "Instructions
 
     // Get the close buttons for modal3
     var close3 = document.getElementsByClassName("close")[1];
+
+    //Seb
+    var userList=[];
 
     // Open modal1 when the button is clicked
     btn1.onclick = function() {
@@ -259,6 +258,28 @@ You can find this pop-up &nbsp;&nbsp;&nbsp;&nbsp;again by clicking "Instructions
 // Open modal3 when the page is loaded
 window.onload = function() {
   modal3.style.display = "block";
+
+  importinput();
+  if (localStorage.getItem("loggedin") == 0 || localStorage.getItem("loggedin") === null) {
+    window.location = "login.html";
+  }else{
+    username = localStorage.getItem("username");
+  }
+
+  function importinput(){
+    fetch("https://api.sheetson.com/v2/sheets/results", {
+      headers: {
+        "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+        "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+      }
+    }).then(r => r.json())
+    .then(result => {
+      var playerData = result["results"];
+      for (var i = 0; i < playerData.length; i++) {
+        userList.push(playerData[i]["User"]);
+      }
+    })
+  }
 };
     // Close modal1 when the close button is clicked
     close1.onclick = function() {

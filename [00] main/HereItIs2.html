@@ -5,45 +5,30 @@
   <style>
 
 .background-container {
-      background-image: url('tworizal.png');
-      background-size: contain;
+      background-image: url('./images/meainthemap.png');
+      background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center center;
-      background-attachment: fixed;
-      width: 100%;
-      height: 100%;
+      width: 1920px;
+      height: 1080px;
       position: fixed;
       top: 0;
       left: 0;
       z-index: -1;
+      position: absolute;
     }
-
-.picture-behind {
-      background-image: url('primelong.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-attachment: fixed;
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -2;
-    }
-
 
     .game-button {
-      width: 40px;
+      width: 35px;
       height: 20px;
       padding: 0;
       border: none;
       background-color: transparent;
       position: absolute;
-      top: 317px; /* Specify the distance from the top of the page */
-      left: 570px; /* Specify the distance from the left of the page */
+      top: 140px; /* Specify the distance from the top of the page */
+      left: 240px; /* Specify the distance from the left of the page */
 }
-   
+
  /* Modal styles */
 
 .modal {
@@ -181,7 +166,6 @@ font-family: "Ubuntu", Arial, sans-serif;
       border-radius: 4px;
       transition: opacity 0.3s;
 }
-
 	.ineedspace {
 		line-height:1.5;
 }
@@ -189,16 +173,16 @@ font-family: "Ubuntu", Arial, sans-serif;
   </style>
 </head>
 <body>
-<div class="background-container"></div>
-  <div class="picture-behind"></div>
-
-  <!-- Button to open the modal -->
-  <!-- Button to open the first modal -->
-  <button id="myBtn1" class="button"><b>Here it is!</b></button>
+<div class="background-container">
 
   <!-- Button with image to open the second modal -->
   <button id="myBtn2" class="game-button">
   </button>
+
+</div>
+  <!-- Button to open the modal -->
+  <!-- Button to open the first modal -->
+  <button id="myBtn1" class="button"><b>Here it is!</b></button>
 
   <!-- Button to open the second modal -->
   <button id="myBtn3" class="buton"><b>Instructions</b></button>
@@ -210,7 +194,7 @@ font-family: "Ubuntu", Arial, sans-serif;
       <span class="close">&times;</span>
       <h2 style="font-family: "Ubuntu", Arial, sans-serif;">Here is what you need to find.</h2>
 	</div>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Rizal (not the text)</b></p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/meacutout.png" height="100" width="258"></p>
     </div>
   </div>
 
@@ -220,8 +204,9 @@ font-family: "Ubuntu", Arial, sans-serif;
 	<div class="modal-header">
       <h2 style="font-family: "Ubuntu", Arial, sans-serif;">Congratulations, you have found it!</h2>
 	</div>
-      <p style="font-family: "Ubuntu", Arial, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;<img src="realpepecutout.png" height="200" width="170"><br>&nbsp;&nbsp;&nbsp;&nbsp;<b>You can find these Rizal cutouts at the libraries!</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;Photo by Danielle Cu</p>
-      <a href="5.html" target="_blank" class="buon">Next</a>
+      <p style="font-family: "Ubuntu", Arial, sans-serif;" class="ineedspace">&nbsp;&nbsp;&nbsp;&nbsp;The <b>Ateneo Management Engineering Association (MEA)</b> is &nbsp;&nbsp;&nbsp;&nbsp;the home organization of the Management Engineering course. &nbsp;&nbsp;&nbsp;&nbsp;The organization provides unique learning opportunities by &nbsp;&nbsp;&nbsp;&nbsp;offering various mediums for members to both understand and &nbsp;&nbsp;&nbsp;&nbsp;apply newly-learned concepts and skills that all ultimately work &nbsp;&nbsp;&nbsp;&nbsp;towards attaining MEA’s vision.
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;Hidden Picture Illustration by Rod Hunt</p>
+      <a href="HereItIs3.html" class="buon">Next</a>
     </div>
   </div>
 
@@ -258,6 +243,9 @@ You can find this pop-up &nbsp;&nbsp;&nbsp;&nbsp;again by clicking "Instructions
     // Get the close buttons for modal3
     var close3 = document.getElementsByClassName("close")[1];
 
+    //Seb
+    var userList=[];
+
     // Open modal1 when the button is clicked
     btn1.onclick = function() {
       modal1.style.display = "block";
@@ -276,6 +264,28 @@ You can find this pop-up &nbsp;&nbsp;&nbsp;&nbsp;again by clicking "Instructions
 // Open modal3 when the page is loaded
 window.onload = function() {
   modal1.style.display = "block";
+  
+  importinput();
+  if (localStorage.getItem("loggedin") == 0 || localStorage.getItem("loggedin") === null) {
+    window.location = "login.html";
+  }else{
+    username = localStorage.getItem("username");
+  }
+
+  function importinput(){
+    fetch("https://api.sheetson.com/v2/sheets/results", {
+      headers: {
+        "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+        "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+      }
+    }).then(r => r.json())
+    .then(result => {
+      var playerData = result["results"];
+      for (var i = 0; i < playerData.length; i++) {
+        userList.push(playerData[i]["User"]);
+      }
+    })
+  }
 };
     // Close modal1 when the close button is clicked
     close1.onclick = function() {

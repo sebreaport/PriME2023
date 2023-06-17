@@ -98,6 +98,7 @@
       ]
 
       var username;
+      var fullname;
       var userList = [];
       var round = 1;
       var roundCapital;
@@ -114,10 +115,11 @@
           window.location = "login.html";
         }else{
           username = localStorage.getItem("username");
+          fullname = localStorage.getItem("Full Name");
         }
         document.getElementById("game").style.display = "none";
         document.getElementsByClassName("topHeader")[0].style.display = "none";
-        document.getElementById("welcomeMessage").innerHTML = "Hi " + username + "! Welcome to Investomania!";
+        document.getElementById("welcomeMessage").innerHTML = "Hi " + fullname + "! Welcome to Investomania!";
 
         var welcomeSubMessage = [
           "This game is all about investing! You have four rounds (four years) to maximize your initial capital of <b>P1,000,000</b>!</br>",
@@ -162,27 +164,31 @@
       }
 
       function postsheets() {
-        importinput();
-        var newAddress = ""
-        for (var i = 0; i < userList.length; i++) {
-          if (username == userList[i]) {
-            var index = i + 2;
-            newAddress = "https://api.sheetson.com/v2/sheets/results/" + index;
+        if (localStorage.getItem("Score 2") > gain) {
+          alert("You got a higher score in your last try!")
+        }else{
+          importinput();
+          var newAddress = ""
+          for (var i = 0; i < userList.length; i++) {
+            if (username == userList[i]) {
+              var index = i + 2;
+              newAddress = "https://api.sheetson.com/v2/sheets/results/" + index;
+            }
           }
+          var d = new Date();
+          fetch(newAddress, {
+            method: "PUT",
+            headers: {
+              "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
+              "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({'Score 2': gain})
+          }).then(r => r.json())
+          .then(result => {
+            closable = true;
+          })
         }
-        var d = new Date();
-        fetch(newAddress, {
-          method: "PUT",
-          headers: {
-            "Authorization": "Bearer 8gfhXEvvAd57e6U-wCebSKLtNs3e5GsskqTJsSsR0ZCiG6YQDDHfA_RQJcs",
-            "X-Spreadsheet-Id": "1-P4AOtFzTTVX8ok3ZjvrwirSEffLhXBRJvZZ56pCeFA",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({'Score 2': gain})
-        }).then(r => r.json())
-        .then(result => {
-          closable = true;
-        })
       }
       //JARED CODE TO POST TO SHEETS END
 

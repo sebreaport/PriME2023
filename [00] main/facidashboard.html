@@ -7,6 +7,7 @@
 
     <script type="text/javascript">
       var username;
+      var fullname;
       var open;
       var score1;
       var score2;
@@ -22,10 +23,11 @@
         else{
           importinput();
           username = localStorage.getItem("username");
+          fullname = localStorage.getItem("Full Name");
           open = localStorage.getItem("open");
           yourData2 = JSON.parse(localStorage.getItem("yourData"));
         }
-        document.getElementById("header").innerHTML = "Welcome, " + username +"! Click on one of the games to begin!";
+        document.getElementById("header").innerHTML = "Welcome, " + fullname + "! Click on one of the games to begin!";
       }
 
       function importinput (){
@@ -68,21 +70,41 @@
           if (open >= 1) {
             document.getElementsByClassName("enterGame")[0].disabled=false;
             document.getElementsByClassName("enterGame")[0].innerHTML="Enter Game!";
+            if (score1 == "") {
+              document.getElementsByClassName("score")[0].innerHTML = "Not Yet Attempted!";
+            }else{
+              document.getElementsByClassName("score")[0].innerHTML = "Score: " + score1;
+            }
           }
           if (open >= 2) {
             document.getElementsByClassName("enterGame")[1].disabled=false;
             document.getElementsByClassName("enterGame")[1].innerHTML="Enter Game!";
+            if (score2 == "") {
+              document.getElementsByClassName("score")[1].innerHTML = "Not Yet Attempted!";
+            }else{
+              document.getElementsByClassName("score")[1].innerHTML = "Score: " + score2;
+            }
           }
           if (open >= 3) {
             document.getElementsByClassName("enterGame")[2].disabled=false;
             document.getElementsByClassName("enterGame")[2].innerHTML="Enter Game!";
+            if (score3 == "") {
+              document.getElementsByClassName("score")[2].innerHTML = "Not Yet Attempted!";
+            }else{
+              document.getElementsByClassName("score")[2].innerHTML = "Score: " + score3;
+            }
           }
-          if (open >= 4) {
+          /*if (open >= 4) {
             document.getElementsByClassName("enterGame")[3].disabled=false;
             document.getElementsByClassName("enterGame")[3].innerHTML="Enter Game!";
-          }
+            if (score4 == "") {
+              document.getElementsByClassName("score")[3].innerHTML = "Not Yet Attempted!";
+            }else{
+              document.getElementsByClassName("score")[3].innerHTML = "Score: " + score4;
+            }
+          }*/
 
-          if (score1 != "") {
+          /*if (score1 != "") {
             document.getElementsByClassName("score")[0].innerHTML = "Score: " + score1;
             document.getElementsByClassName("enterGame")[0].disabled=true;
             document.getElementsByClassName("enterGame")[0].innerHTML="Already Played!";
@@ -101,11 +123,12 @@
             document.getElementsByClassName("score")[3].innerHTML = "Score: " + score4;
             document.getElementsByClassName("enterGame")[3].disabled=true;
             document.getElementsByClassName("enterGame")[3].innerHTML="Already Played!";
-          }
+          }*/
         }
 
         function logout(){
           localStorage.removeItem("username");
+          localStorage.removeItem("Full Name");
           localStorage.removeItem("yourData");
           localStorage.setItem("loggedin",0);
           localStorage.removeItem("Score 1");
@@ -263,13 +286,14 @@
         <img class="icon" alt="icon" src="./images/logo_round.png">
         <p>This game challenges you to keep an open eye in order to find the key pictures hidden within the map!</p>
         <button type="button" class="enterGame" name="enterGame" disabled="true" onclick="location.href='HereItIs1.html';">Not Yet Open!</button>
-      </div><div class="holder">
+      </div>
+      <!--<div class="holder">
         <h1>The Lawman</h1>
         <h2 class="score">Not Yet Attempted!</h2>
         <img class="icon" alt="icon" src="./images/logo_round.png">
         <p>This game introduces you to fundamental law terms. Help save the Lawman from impending doom!</p>
         <button type="button" class="enterGame" name="enterGame" disabled="true" onclick="location.href='lawman.html';">Not Yet Open!</button>
-      </div>
+      </div>-->
     </div>
     <button type="button" id="logout" name="button" class="logout" onclick="logout()">Log Out</button>
   </body>
